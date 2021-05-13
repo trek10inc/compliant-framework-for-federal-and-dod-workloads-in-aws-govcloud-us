@@ -1,0 +1,3481 @@
+{
+  "Description": "(SO0130) - Compliant Framework for Federal and DoD Workloads in AWS GovCloud (US). Version v1.0.0",
+  "Metadata": {
+    "AWS::CloudFormation::Interface": {
+      "ParameterGroups": [
+        {
+          "Label": {
+            "default": "Compliant Framework Configuration"
+          },
+          "Parameters": [
+            "frameworkNotificationEmail",
+            "coreNotificationEmail",
+            "environmentNotificationEmail",
+            "loggingAccountEmail",
+            "transitAccountEmail",
+            "managementServicesAccountEmail",
+            "useGovCloud",
+            "deploymentRegion"
+          ]
+        },
+        {
+          "Label": {
+            "default": "Transit Gateway Configuration"
+          },
+          "Parameters": [
+            "transitGatewayAmazonSideAsn",
+            "firewallAAsn",
+            "firewallBAsn"
+          ]
+        },
+        {
+          "Label": {
+            "default": "Transit Account - Firewall VPC Configuration"
+          },
+          "Parameters": [
+            "firewallVpcCidrBlock",
+            "firewallVpcNiprCidrBlock",
+            "firewallVpcInstanceTenancy",
+            "firewallVpcExternalSubnetACidrBlock",
+            "firewallVpcExternalSubnetBCidrBlock",
+            "firewallVpcInternalSubnetACidrBlock",
+            "firewallVpcInternalSubnetBCidrBlock",
+            "firewallVpcManagementSubnetACidrBlock",
+            "firewallVpcManagementSubnetBCidrBlock",
+            "firewallVpcTransitGatewayAttachmentSubnetACidrBlock",
+            "firewallVpcTransitGatewayAttachmentSubnetBCidrBlock"
+          ]
+        },
+        {
+          "Label": {
+            "default": "Management Services VPC Configuration"
+          },
+          "Parameters": [
+            "managementServicesVpcCidrBlock",
+            "managementServicesVpcInstanceTenancy",
+            "managementServicesVpcApplicationSubnetACidrBlock",
+            "managementServicesVpcApplicationSubnetBCidrBlock",
+            "managementServicesVpcDataSubnetACidrBlock",
+            "managementServicesVpcDataSubnetBCidrBlock",
+            "managementServicesVpcTransitGatewayAttachmentSubnetACidrBlock",
+            "managementServicesVpcTransitGatewayAttachmentSubnetBCidrBlock"
+          ]
+        },
+        {
+          "Label": {
+            "default": "External Access VPC Configuration"
+          },
+          "Parameters": [
+            "externalAccessVpcCidrBlock",
+            "externalAccessVpcInstanceTenancy",
+            "externalAccessVpcPublicSubnetACidrBlock",
+            "externalAccessVpcPublicSubnetBCidrBlock",
+            "externalAccessVpcApplicationSubnetACidrBlock",
+            "externalAccessVpcApplicationSubnetBCidrBlock",
+            "externalAccessVpcTransitGatewayAttachmentSubnetACidrBlock",
+            "externalAccessVpcTransitGatewayAttachmentSubnetBCidrBlock"
+          ]
+        },
+        {
+          "Label": {
+            "default": "Directory VPC Configuration"
+          },
+          "Parameters": [
+            "directoryVpcCidrBlock",
+            "directoryVpcInstanceTenancy",
+            "directoryVpcApplicationSubnetACidrBlock",
+            "directoryVpcApplicationSubnetBCidrBlock",
+            "directoryVpcDataSubnetACidrBlock",
+            "directoryVpcDataSubnetBCidrBlock",
+            "directoryVpcTransitGatewayAttachmentSubnetACidrBlock",
+            "directoryVpcTransitGatewayAttachmentSubnetBCidrBlock"
+          ]
+        }
+      ],
+      "ParameterLabels": {
+        "frameworkNotificationEmail": {
+          "default": "Deployment Notifications Email"
+        },
+        "coreNotificationEmail": {
+          "default": "Core Notifications Email"
+        },
+        "environmentNotificationEmail": {
+          "default": "Environment Notifications Email"
+        },
+        "loggingAccountEmail": {
+          "default": "Logging Account Email"
+        },
+        "transitAccountEmail": {
+          "default": "Transit Account Email"
+        },
+        "managementServicesAccountEmail": {
+          "default": "Management Services Account Email"
+        },
+        "useGovCloud": {
+          "default": "Use AWS GovCloud (US)?"
+        },
+        "deploymentRegion": {
+          "default": "Deployment Region"
+        },
+        "transitGatewayAmazonSideAsn": {
+          "default": "Amazon Side Autonomous System Number (ASN)"
+        },
+        "firewallAAsn": {
+          "default": "Firewall A (ASN)"
+        },
+        "firewallBAsn": {
+          "default": "Firewall B (ASN)"
+        },
+        "firewallVpcCidrBlock": {
+          "default": "Firewall VPC CIDR"
+        },
+        "firewallVpcNiprCidrBlock": {
+          "default": "(Optional) Firewall VPC NIPR CIDR"
+        },
+        "firewallVpcInstanceTenancy": {
+          "default": "VPC Instance Tenancy"
+        },
+        "firewallVpcExternalSubnetACidrBlock": {
+          "default": "External Subnet CIDR Block - Availability Zone A"
+        },
+        "firewallVpcExternalSubnetBCidrBlock": {
+          "default": "External Subnet CIDR Block - Availability Zone B"
+        },
+        "firewallVpcInternalSubnetACidrBlock": {
+          "default": "Internal Subnet CIDR Block - Availability Zone A"
+        },
+        "firewallVpcInternalSubnetBCidrBlock": {
+          "default": "Internal Subnet CIDR Block - Availability Zone B"
+        },
+        "firewallVpcManagementSubnetACidrBlock": {
+          "default": "Management Subnet CIDR Block - Availability Zone A"
+        },
+        "firewallVpcManagementSubnetBCidrBlock": {
+          "default": "Management Subnet CIDR Block - Availability Zone B"
+        },
+        "firewallVpcTransitGatewayAttachmentSubnetACidrBlock": {
+          "default": "Transit Gateway Attachment Subnet CIDR Block - Availability Zone A"
+        },
+        "firewallVpcTransitGatewayAttachmentSubnetBCidrBlock": {
+          "default": "Transit Gateway Attachment Subnet CIDR Block - Availability Zone B"
+        },
+        "managementServicesVpcCidrBlock": {
+          "default": "Management Services VPC CIDR"
+        },
+        "managementServicesVpcInstanceTenancy": {
+          "default": "VPC Instance Tenancy"
+        },
+        "managementServicesVpcApplicationSubnetACidrBlock": {
+          "default": "Application Subnet CIDR - Availability Zone A"
+        },
+        "managementServicesVpcApplicationSubnetBCidrBlock": {
+          "default": "Application Subnet CIDR - Availability Zone B"
+        },
+        "managementServicesVpcDataSubnetACidrBlock": {
+          "default": "Data Subnet CIDR - Availability Zone A"
+        },
+        "managementServicesVpcDataSubnetBCidrBlock": {
+          "default": "Data Subnet CIDR - Availability Zone B"
+        },
+        "managementServicesVpcTransitGatewayAttachmentSubnetACidrBlock": {
+          "default": "Transit Gateway Attachment Subnet CIDR - Availability Zone A"
+        },
+        "managementServicesVpcTransitGatewayAttachmentSubnetBCidrBlock": {
+          "default": "Transit Gateway Attachment Subnet CIDR - Availability Zone B"
+        },
+        "externalAccessVpcCidrBlock": {
+          "default": "External Access VPC CIDR"
+        },
+        "externalAccessVpcInstanceTenancy": {
+          "default": "VPC Instance Tenancy"
+        },
+        "externalAccessVpcPublicSubnetACidrBlock": {
+          "default": "Public Subnet CIDR - Availability Zone A"
+        },
+        "externalAccessVpcPublicSubnetBCidrBlock": {
+          "default": "Public Subnet CIDR - Availability Zone B"
+        },
+        "externalAccessVpcApplicationSubnetACidrBlock": {
+          "default": "Application Subnet CIDR - Availability Zone A"
+        },
+        "externalAccessVpcApplicationSubnetBCidrBlock": {
+          "default": "Application Subnet CIDR - Availability Zone B"
+        },
+        "externalAccessVpcTransitGatewayAttachmentSubnetACidrBlock": {
+          "default": "Transit Gateway Attachment Subnet CIDR - Availability Zone A"
+        },
+        "externalAccessVpcTransitGatewayAttachmentSubnetBCidrBlock": {
+          "default": "Transit Gateway Attachment Subnet CIDR - Availability Zone B"
+        },
+        "directoryVpcCidrBlock": {
+          "default": "Directory VPC CIDR"
+        },
+        "directoryVpcInstanceTenancy": {
+          "default": "VPC Instance Tenancy"
+        },
+        "directoryVpcApplicationSubnetACidrBlock": {
+          "default": "Application Subnet CIDR - Availability Zone A"
+        },
+        "directoryVpcApplicationSubnetBCidrBlock": {
+          "default": "Application Subnet CIDR - Availability Zone B"
+        },
+        "directoryVpcDataSubnetACidrBlock": {
+          "default": "Data Subnet CIDR - Availability Zone A"
+        },
+        "directoryVpcDataSubnetBCidrBlock": {
+          "default": "Data Subnet CIDR - Availability Zone B"
+        },
+        "directoryVpcTransitGatewayAttachmentSubnetACidrBlock": {
+          "default": "Transit Gateway Attachment Subnet CIDR - Availability Zone A"
+        },
+        "directoryVpcTransitGatewayAttachmentSubnetBCidrBlock": {
+          "default": "Transit Gateway Attachment Subnet CIDR - Availability Zone B"
+        }
+      }
+    }
+  },
+  "Parameters": {
+    "frameworkNotificationEmail": {
+      "Type": "String",
+      "AllowedPattern": "^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$",
+      "Description": "Specify an email address to receive notifications about this deployment"
+    },
+    "coreNotificationEmail": {
+      "Type": "String",
+      "AllowedPattern": "^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$",
+      "Description": "Specify an email address to receive notifications about Core Accounts."
+    },
+    "environmentNotificationEmail": {
+      "Type": "String",
+      "AllowedPattern": "^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$",
+      "Description": "Specify an email address to receive notifications about Environment Accounts."
+    },
+    "useGovCloud": {
+      "Type": "String",
+      "Default": "true",
+      "AllowedValues": [
+        "true"
+      ],
+      "Description": "Specify true to deploy the Compliant Framework into AWS GovCloud (US). If selecting GovCloud, verify that the current account is a GovCloud (US) / ITAR enabled master payer account and AWS CLI access keys have been inputted into SSM Parameter Store, per prerequisites."
+    },
+    "deploymentRegion": {
+      "Type": "String",
+      "Default": "us-gov-west-1",
+      "AllowedValues": [
+        "us-gov-west-1"
+      ],
+      "Description": "Specify the region to deploy the solution into. This solution will install by default into us-gov-west-1. Please contact AWS Professional Services for more information about how to enable this solution to also deploy into us-gov-east-1."
+    },
+    "loggingAccountEmail": {
+      "Type": "String",
+      "AllowedPattern": "^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$",
+      "Description": "Specify an email address to use for the Logging account. This email address must not already be associated with another AWS account. You must use a valid email address to complete account creation. You can't access the root user of the account or remove an account that was created with an invalid email address."
+    },
+    "transitAccountEmail": {
+      "Type": "String",
+      "AllowedPattern": "^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$",
+      "Description": "Specify an email address to use for the Transit account. This email address must not already be associated with another AWS account. You must use a valid email address to complete account creation. You can't access the root user of the account or remove an account that was created with an invalid email address."
+    },
+    "managementServicesAccountEmail": {
+      "Type": "String",
+      "AllowedPattern": "^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$",
+      "Description": "Specify an email address to use for the VDMS account. This email address must not already be associated with another AWS account. You must use a valid email address to complete account creation. You can't access the root user of the account or remove an account that was created with an invalid email address."
+    },
+    "transitGatewayAmazonSideAsn": {
+      "Type": "String",
+      "Default": "65224",
+      "Description": "This should be the ASN for the AWS side of a Border Gateway Protocol (BGP) session. The range is 64512 to 65534 for 16-bit ASNs. The range is 4200000000 to 4294967294 for 32-bit ASNs. If you have a multi-region deployment, we recommend that you use a unique ASN for each of your transit gateways"
+    },
+    "firewallAAsn": {
+      "Type": "String",
+      "Default": "65200",
+      "Description": "The range is 64512 to 65534 for 16-bit ASNs. The range is 4200000000 to 4294967294 for 32-bit ASNs. If you have a multi-region deployment, we recommend that you use a unique ASN for each of yourtransit gateways"
+    },
+    "firewallBAsn": {
+      "Type": "String",
+      "Default": "65210",
+      "Description": "The range is 64512 to 65534 for 16-bit ASNs. The range is 4200000000 to 4294967294 for 32-bit ASNs. If you have a multi-region deployment, we recommend that you use a unique ASN for each of yourtransit gateways"
+    },
+    "firewallVpcCidrBlock": {
+      "Type": "String",
+      "Default": "10.0.0.0/21"
+    },
+    "firewallVpcNiprCidrBlock": {
+      "Type": "String",
+      "Default": "0.0.0.0/0",
+      "Description": "If specified, an additional CIDR range will be added to the VPC. The external subnet CIDR blocks should reflect the usage of this NIPR based range."
+    },
+    "firewallVpcInstanceTenancy": {
+      "Type": "String",
+      "Default": "default",
+      "AllowedValues": [
+        "default",
+        "dedicated"
+      ],
+      "Description": "The allowed tenancy of instances launched into the VPC."
+    },
+    "firewallVpcExternalSubnetACidrBlock": {
+      "Type": "String",
+      "Default": "10.0.0.0/24"
+    },
+    "firewallVpcExternalSubnetBCidrBlock": {
+      "Type": "String",
+      "Default": "10.0.1.0/24"
+    },
+    "firewallVpcInternalSubnetACidrBlock": {
+      "Type": "String",
+      "Default": "10.0.3.0/24"
+    },
+    "firewallVpcInternalSubnetBCidrBlock": {
+      "Type": "String",
+      "Default": "10.0.4.0/24"
+    },
+    "firewallVpcManagementSubnetACidrBlock": {
+      "Type": "String",
+      "Default": "10.0.6.0/27"
+    },
+    "firewallVpcManagementSubnetBCidrBlock": {
+      "Type": "String",
+      "Default": "10.0.6.32/27"
+    },
+    "firewallVpcTransitGatewayAttachmentSubnetACidrBlock": {
+      "Type": "String",
+      "Default": "10.0.7.208/28"
+    },
+    "firewallVpcTransitGatewayAttachmentSubnetBCidrBlock": {
+      "Type": "String",
+      "Default": "10.0.7.224/28"
+    },
+    "managementServicesVpcCidrBlock": {
+      "Type": "String",
+      "Default": "10.0.20.0/22"
+    },
+    "managementServicesVpcInstanceTenancy": {
+      "Type": "String",
+      "Default": "default",
+      "AllowedValues": [
+        "default",
+        "dedicated"
+      ],
+      "Description": "The allowed tenancy of instances launched into the VPC."
+    },
+    "managementServicesVpcApplicationSubnetACidrBlock": {
+      "Type": "String",
+      "Default": "10.0.20.0/24"
+    },
+    "managementServicesVpcApplicationSubnetBCidrBlock": {
+      "Type": "String",
+      "Default": "10.0.21.0/24"
+    },
+    "managementServicesVpcDataSubnetACidrBlock": {
+      "Type": "String",
+      "Default": "10.0.23.0/26"
+    },
+    "managementServicesVpcDataSubnetBCidrBlock": {
+      "Type": "String",
+      "Default": "10.0.23.64/26"
+    },
+    "managementServicesVpcTransitGatewayAttachmentSubnetACidrBlock": {
+      "Type": "String",
+      "Default": "10.0.23.208/28"
+    },
+    "managementServicesVpcTransitGatewayAttachmentSubnetBCidrBlock": {
+      "Type": "String",
+      "Default": "10.0.23.224/28"
+    },
+    "externalAccessVpcCidrBlock": {
+      "Type": "String",
+      "Default": "10.0.24.0/22"
+    },
+    "externalAccessVpcInstanceTenancy": {
+      "Type": "String",
+      "Default": "default",
+      "AllowedValues": [
+        "default",
+        "dedicated"
+      ],
+      "Description": "The allowed tenancy of instances launched into the VPC."
+    },
+    "externalAccessVpcPublicSubnetACidrBlock": {
+      "Type": "String",
+      "Default": "10.0.24.0/27"
+    },
+    "externalAccessVpcPublicSubnetBCidrBlock": {
+      "Type": "String",
+      "Default": "10.0.24.32/27"
+    },
+    "externalAccessVpcApplicationSubnetACidrBlock": {
+      "Type": "String",
+      "Default": "10.0.24.96/27"
+    },
+    "externalAccessVpcApplicationSubnetBCidrBlock": {
+      "Type": "String",
+      "Default": "10.0.24.128/27"
+    },
+    "externalAccessVpcTransitGatewayAttachmentSubnetACidrBlock": {
+      "Type": "String",
+      "Default": "10.0.24.208/28"
+    },
+    "externalAccessVpcTransitGatewayAttachmentSubnetBCidrBlock": {
+      "Type": "String",
+      "Default": "10.0.24.224/28"
+    },
+    "directoryVpcCidrBlock": {
+      "Type": "String",
+      "Default": "10.0.10.0/24"
+    },
+    "directoryVpcInstanceTenancy": {
+      "Type": "String",
+      "Default": "default",
+      "AllowedValues": [
+        "default",
+        "dedicated"
+      ],
+      "Description": "The allowed tenancy of instances launched into the VPC. If you intend to use AWS Managed AD, 'default' is required"
+    },
+    "directoryVpcApplicationSubnetACidrBlock": {
+      "Type": "String",
+      "Default": "10.0.10.0/27"
+    },
+    "directoryVpcApplicationSubnetBCidrBlock": {
+      "Type": "String",
+      "Default": "10.0.10.32/27"
+    },
+    "directoryVpcDataSubnetACidrBlock": {
+      "Type": "String",
+      "Default": "10.0.10.96/27"
+    },
+    "directoryVpcDataSubnetBCidrBlock": {
+      "Type": "String",
+      "Default": "10.0.10.128/27"
+    },
+    "directoryVpcTransitGatewayAttachmentSubnetACidrBlock": {
+      "Type": "String",
+      "Default": "10.0.10.208/28"
+    },
+    "directoryVpcTransitGatewayAttachmentSubnetBCidrBlock": {
+      "Type": "String",
+      "Default": "10.0.10.224/28"
+    }
+  },
+  "Resources": {
+    "alertSubscriptionCmkA72E2BB0": {
+      "Type": "AWS::KMS::Key",
+      "Properties": {
+        "KeyPolicy": {
+          "Statement": [
+            {
+              "Action": [
+                "kms:Create*",
+                "kms:Describe*",
+                "kms:Enable*",
+                "kms:List*",
+                "kms:Put*",
+                "kms:Update*",
+                "kms:Revoke*",
+                "kms:Disable*",
+                "kms:Get*",
+                "kms:Delete*",
+                "kms:ScheduleKeyDeletion",
+                "kms:CancelKeyDeletion",
+                "kms:GenerateDataKey",
+                "kms:TagResource",
+                "kms:UntagResource"
+              ],
+              "Effect": "Allow",
+              "Principal": {
+                "AWS": {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition"
+                      },
+                      ":iam::",
+                      {
+                        "Ref": "AWS::AccountId"
+                      },
+                      ":root"
+                    ]
+                  ]
+                }
+              },
+              "Resource": "*"
+            },
+            {
+              "Action": [
+                "kms:Decrypt",
+                "kms:Encrypt",
+                "kms:ReEncrypt*",
+                "kms:GenerateDataKey*"
+              ],
+              "Effect": "Allow",
+              "Principal": {
+                "AWS": {
+                  "Fn::GetAtt": [
+                    "notifySuccessFunctionServiceRole71309B20",
+                    "Arn"
+                  ]
+                }
+              },
+              "Resource": "*"
+            },
+            {
+              "Action": [
+                "kms:Decrypt",
+                "kms:Encrypt",
+                "kms:ReEncrypt*",
+                "kms:GenerateDataKey*"
+              ],
+              "Effect": "Allow",
+              "Principal": {
+                "AWS": {
+                  "Fn::GetAtt": [
+                    "notifyFailureFunctionServiceRole62A7746B",
+                    "Arn"
+                  ]
+                }
+              },
+              "Resource": "*"
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "EnableKeyRotation": true
+      },
+      "UpdateReplacePolicy": "Retain",
+      "DeletionPolicy": "Retain",
+      "Metadata": {
+        "aws:cdk:path": "compliant-framework-for-federal-and-dod-workloads-in-aws-govcloud-us/alertSubscriptionCmk/Resource"
+      }
+    },
+    "alertSubscriptionCmkAlias84864D49": {
+      "Type": "AWS::KMS::Alias",
+      "Properties": {
+        "AliasName": "alias/compliant-framework/notification-email/topic/cmk",
+        "TargetKeyId": {
+          "Fn::GetAtt": [
+            "alertSubscriptionCmkA72E2BB0",
+            "Arn"
+          ]
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "compliant-framework-for-federal-and-dod-workloads-in-aws-govcloud-us/alertSubscriptionCmkAlias/Resource"
+      }
+    },
+    "alertTopic73F0F6D1": {
+      "Type": "AWS::SNS::Topic",
+      "Properties": {
+        "DisplayName": "Compliant Framework Info",
+        "KmsMasterKeyId": {
+          "Fn::Join": [
+            "",
+            [
+              "arn:",
+              {
+                "Ref": "AWS::Partition"
+              },
+              ":kms:",
+              {
+                "Ref": "AWS::Region"
+              },
+              ":",
+              {
+                "Ref": "AWS::AccountId"
+              },
+              ":alias/compliant-framework/notification-email/topic/cmk"
+            ]
+          ]
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "compliant-framework-for-federal-and-dod-workloads-in-aws-govcloud-us/alertTopic/Resource"
+      }
+    },
+    "alertTopicTokenSubscription137A48B4C": {
+      "Type": "AWS::SNS::Subscription",
+      "Properties": {
+        "Protocol": "email",
+        "TopicArn": {
+          "Ref": "alertTopic73F0F6D1"
+        },
+        "Endpoint": {
+          "Ref": "frameworkNotificationEmail"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "compliant-framework-for-federal-and-dod-workloads-in-aws-govcloud-us/alertTopic/TokenSubscription:1/Resource"
+      }
+    },
+    "notifySuccessFunctionServiceRole71309B20": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "lambda.amazonaws.com"
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "ManagedPolicyArns": [
+          {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition"
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+              ]
+            ]
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "compliant-framework-for-federal-and-dod-workloads-in-aws-govcloud-us/notifySuccessFunction/ServiceRole/Resource"
+      }
+    },
+    "notifySuccessFunctionServiceRoleDefaultPolicy50559E57": {
+      "Type": "AWS::IAM::Policy",
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
+                "logs:CreateLogGroup",
+                "logs:CreateLogStream",
+                "logs:PutLogEvents"
+              ],
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "arn:",
+                    {
+                      "Ref": "AWS::Partition"
+                    },
+                    ":logs:",
+                    {
+                      "Ref": "AWS::Region"
+                    },
+                    ":",
+                    {
+                      "Ref": "AWS::AccountId"
+                    },
+                    ":log-group:CompliantFramework-NotifySuccessFunction"
+                  ]
+                ]
+              }
+            },
+            {
+              "Action": "sns:Publish",
+              "Effect": "Allow",
+              "Resource": {
+                "Ref": "alertTopic73F0F6D1"
+              }
+            },
+            {
+              "Action": [
+                "kms:Decrypt",
+                "kms:Encrypt",
+                "kms:ReEncrypt*",
+                "kms:GenerateDataKey*"
+              ],
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::GetAtt": [
+                  "alertSubscriptionCmkA72E2BB0",
+                  "Arn"
+                ]
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "PolicyName": "notifySuccessFunctionServiceRoleDefaultPolicy50559E57",
+        "Roles": [
+          {
+            "Ref": "notifySuccessFunctionServiceRole71309B20"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "compliant-framework-for-federal-and-dod-workloads-in-aws-govcloud-us/notifySuccessFunction/ServiceRole/DefaultPolicy/Resource"
+      }
+    },
+    "notifySuccessFunction2BDC0619": {
+      "Type": "AWS::Lambda::Function",
+      "Properties": {
+        "Code": {
+          "S3Bucket": {
+            "Fn::Sub": "solutions-${AWS::Region}"
+          },
+          "S3Key": "compliant-framework-for-federal-and-dod-workloads-in-aws-govcloud-us/v1.0.0/assetad7b1a56943aba6122ca7acbca3f34dbce7dea938702f3f01ed655e0e90a4c03.zip"
+        },
+        "Handler": "index.lambda_handler",
+        "Role": {
+          "Fn::GetAtt": [
+            "notifySuccessFunctionServiceRole71309B20",
+            "Arn"
+          ]
+        },
+        "Runtime": "python3.8",
+        "Environment": {
+          "Variables": {
+            "SNS_TOPIC_ARN": {
+              "Ref": "alertTopic73F0F6D1"
+            }
+          }
+        },
+        "FunctionName": "CompliantFramework-NotifySuccessFunction",
+        "Timeout": 300
+      },
+      "DependsOn": [
+        "notifySuccessFunctionServiceRoleDefaultPolicy50559E57",
+        "notifySuccessFunctionServiceRole71309B20"
+      ],
+      "Metadata": {
+        "cfn_nag": {
+          "rules_to_suppress": [
+            {
+              "id": "W58",
+              "reason": "Lambda functions has the required permission to write CloudWatch Logs. It uses custom policy instead of arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole with more tighter permissions."
+            }
+          ]
+        }
+      }
+    },
+    "notifyFailureFunctionServiceRole62A7746B": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "lambda.amazonaws.com"
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "ManagedPolicyArns": [
+          {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition"
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+              ]
+            ]
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "compliant-framework-for-federal-and-dod-workloads-in-aws-govcloud-us/notifyFailureFunction/ServiceRole/Resource"
+      }
+    },
+    "notifyFailureFunctionServiceRoleDefaultPolicy70F67F99": {
+      "Type": "AWS::IAM::Policy",
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
+                "logs:CreateLogGroup",
+                "logs:CreateLogStream",
+                "logs:PutLogEvents"
+              ],
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "arn:",
+                    {
+                      "Ref": "AWS::Partition"
+                    },
+                    ":logs:",
+                    {
+                      "Ref": "AWS::Region"
+                    },
+                    ":",
+                    {
+                      "Ref": "AWS::AccountId"
+                    },
+                    ":log-group:CompliantFramework-NotifyFailureFunction"
+                  ]
+                ]
+              }
+            },
+            {
+              "Action": "sns:Publish",
+              "Effect": "Allow",
+              "Resource": {
+                "Ref": "alertTopic73F0F6D1"
+              }
+            },
+            {
+              "Action": [
+                "kms:Decrypt",
+                "kms:Encrypt",
+                "kms:ReEncrypt*",
+                "kms:GenerateDataKey*"
+              ],
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::GetAtt": [
+                  "alertSubscriptionCmkA72E2BB0",
+                  "Arn"
+                ]
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "PolicyName": "notifyFailureFunctionServiceRoleDefaultPolicy70F67F99",
+        "Roles": [
+          {
+            "Ref": "notifyFailureFunctionServiceRole62A7746B"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "compliant-framework-for-federal-and-dod-workloads-in-aws-govcloud-us/notifyFailureFunction/ServiceRole/DefaultPolicy/Resource"
+      }
+    },
+    "notifyFailureFunction70665153": {
+      "Type": "AWS::Lambda::Function",
+      "Properties": {
+        "Code": {
+          "S3Bucket": {
+            "Fn::Sub": "solutions-${AWS::Region}"
+          },
+          "S3Key": "compliant-framework-for-federal-and-dod-workloads-in-aws-govcloud-us/v1.0.0/assetab557da4e5dfc35bccb21fb5d0d4ebb44a993a7c140622466ae7d6ca543262c3.zip"
+        },
+        "Handler": "index.lambda_handler",
+        "Role": {
+          "Fn::GetAtt": [
+            "notifyFailureFunctionServiceRole62A7746B",
+            "Arn"
+          ]
+        },
+        "Runtime": "python3.8",
+        "Environment": {
+          "Variables": {
+            "SNS_TOPIC_ARN": {
+              "Ref": "alertTopic73F0F6D1"
+            }
+          }
+        },
+        "FunctionName": "CompliantFramework-NotifyFailureFunction",
+        "Timeout": 300
+      },
+      "DependsOn": [
+        "notifyFailureFunctionServiceRoleDefaultPolicy70F67F99",
+        "notifyFailureFunctionServiceRole62A7746B"
+      ],
+      "Metadata": {
+        "cfn_nag": {
+          "rules_to_suppress": [
+            {
+              "id": "W58",
+              "reason": "Lambda functions has the required permission to write CloudWatch Logs. It uses custom policy instead of arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole with more tighter permissions."
+            }
+          ]
+        }
+      }
+    },
+    "verifySnsSubscriptionFunctionServiceRole1FE13462": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "lambda.amazonaws.com"
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "ManagedPolicyArns": [
+          {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition"
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+              ]
+            ]
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "compliant-framework-for-federal-and-dod-workloads-in-aws-govcloud-us/verifySnsSubscriptionFunction/ServiceRole/Resource"
+      }
+    },
+    "verifySnsSubscriptionFunctionServiceRoleDefaultPolicy03472881": {
+      "Type": "AWS::IAM::Policy",
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
+                "logs:CreateLogGroup",
+                "logs:CreateLogStream",
+                "logs:PutLogEvents"
+              ],
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "arn:",
+                    {
+                      "Ref": "AWS::Partition"
+                    },
+                    ":logs:",
+                    {
+                      "Ref": "AWS::Region"
+                    },
+                    ":",
+                    {
+                      "Ref": "AWS::AccountId"
+                    },
+                    ":log-group:CompliantFramework-VerifySnsSubscriptionFunction"
+                  ]
+                ]
+              }
+            },
+            {
+              "Action": "sns:GetTopicAttributes",
+              "Effect": "Allow",
+              "Resource": {
+                "Ref": "alertTopic73F0F6D1"
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "PolicyName": "verifySnsSubscriptionFunctionServiceRoleDefaultPolicy03472881",
+        "Roles": [
+          {
+            "Ref": "verifySnsSubscriptionFunctionServiceRole1FE13462"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "compliant-framework-for-federal-and-dod-workloads-in-aws-govcloud-us/verifySnsSubscriptionFunction/ServiceRole/DefaultPolicy/Resource"
+      }
+    },
+    "verifySnsSubscriptionFunctionD2B6A41B": {
+      "Type": "AWS::Lambda::Function",
+      "Properties": {
+        "Code": {
+          "S3Bucket": {
+            "Fn::Sub": "solutions-${AWS::Region}"
+          },
+          "S3Key": "compliant-framework-for-federal-and-dod-workloads-in-aws-govcloud-us/v1.0.0/asset1cde1a2f5d37c035231266fdd6f5b86e6960bac9fab6d3533241c4383b51da0f.zip"
+        },
+        "Handler": "index.lambda_handler",
+        "Role": {
+          "Fn::GetAtt": [
+            "verifySnsSubscriptionFunctionServiceRole1FE13462",
+            "Arn"
+          ]
+        },
+        "Runtime": "python3.8",
+        "FunctionName": "CompliantFramework-VerifySnsSubscriptionFunction",
+        "Timeout": 300
+      },
+      "DependsOn": [
+        "verifySnsSubscriptionFunctionServiceRoleDefaultPolicy03472881",
+        "verifySnsSubscriptionFunctionServiceRole1FE13462"
+      ],
+      "Metadata": {
+        "cfn_nag": {
+          "rules_to_suppress": [
+            {
+              "id": "W58",
+              "reason": "Lambda functions has the required permission to write CloudWatch Logs. It uses custom policy instead of arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole with more tighter permissions."
+            }
+          ]
+        }
+      }
+    },
+    "verifyGovCloudApiKeysFunctionServiceRole7D6C9F60": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "lambda.amazonaws.com"
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "ManagedPolicyArns": [
+          {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition"
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+              ]
+            ]
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "compliant-framework-for-federal-and-dod-workloads-in-aws-govcloud-us/verifyGovCloudApiKeysFunction/ServiceRole/Resource"
+      }
+    },
+    "verifyGovCloudApiKeysFunctionServiceRoleDefaultPolicyB2DCB6DD": {
+      "Type": "AWS::IAM::Policy",
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
+                "logs:CreateLogGroup",
+                "logs:CreateLogStream",
+                "logs:PutLogEvents"
+              ],
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "arn:",
+                    {
+                      "Ref": "AWS::Partition"
+                    },
+                    ":logs:",
+                    {
+                      "Ref": "AWS::Region"
+                    },
+                    ":",
+                    {
+                      "Ref": "AWS::AccountId"
+                    },
+                    ":log-group:CompliantFramework-VerifyGovCloudApiKeys"
+                  ]
+                ]
+              }
+            },
+            {
+              "Action": "ssm:GetParameter",
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "arn:",
+                    {
+                      "Ref": "AWS::Partition"
+                    },
+                    ":ssm:",
+                    {
+                      "Ref": "AWS::Region"
+                    },
+                    ":",
+                    {
+                      "Ref": "AWS::AccountId"
+                    },
+                    ":parameter/*"
+                  ]
+                ]
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "PolicyName": "verifyGovCloudApiKeysFunctionServiceRoleDefaultPolicyB2DCB6DD",
+        "Roles": [
+          {
+            "Ref": "verifyGovCloudApiKeysFunctionServiceRole7D6C9F60"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "compliant-framework-for-federal-and-dod-workloads-in-aws-govcloud-us/verifyGovCloudApiKeysFunction/ServiceRole/DefaultPolicy/Resource"
+      }
+    },
+    "verifyGovCloudApiKeysFunction9640DE12": {
+      "Type": "AWS::Lambda::Function",
+      "Properties": {
+        "Code": {
+          "S3Bucket": {
+            "Fn::Sub": "solutions-${AWS::Region}"
+          },
+          "S3Key": "compliant-framework-for-federal-and-dod-workloads-in-aws-govcloud-us/v1.0.0/asset286d73fe3b50d2666c8eb076d6b6504e34bb20a928370d574168b7f23e0fd155.zip"
+        },
+        "Handler": "index.lambda_handler",
+        "Role": {
+          "Fn::GetAtt": [
+            "verifyGovCloudApiKeysFunctionServiceRole7D6C9F60",
+            "Arn"
+          ]
+        },
+        "Runtime": "python3.8",
+        "FunctionName": "CompliantFramework-VerifyGovCloudApiKeys",
+        "Timeout": 300
+      },
+      "DependsOn": [
+        "verifyGovCloudApiKeysFunctionServiceRoleDefaultPolicyB2DCB6DD",
+        "verifyGovCloudApiKeysFunctionServiceRole7D6C9F60"
+      ],
+      "Metadata": {
+        "cfn_nag": {
+          "rules_to_suppress": [
+            {
+              "id": "W58",
+              "reason": "Lambda functions has the required permission to write CloudWatch Logs. It uses custom policy instead of arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole with more tighter permissions."
+            }
+          ]
+        }
+      }
+    },
+    "initializeOrganizationFunctionServiceRole834457E7": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "lambda.amazonaws.com"
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "ManagedPolicyArns": [
+          {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition"
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+              ]
+            ]
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "compliant-framework-for-federal-and-dod-workloads-in-aws-govcloud-us/initializeOrganizationFunction/ServiceRole/Resource"
+      }
+    },
+    "initializeOrganizationFunctionServiceRoleDefaultPolicy0CC31497": {
+      "Type": "AWS::IAM::Policy",
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
+                "logs:CreateLogGroup",
+                "logs:CreateLogStream",
+                "logs:PutLogEvents"
+              ],
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "arn:",
+                    {
+                      "Ref": "AWS::Partition"
+                    },
+                    ":logs:",
+                    {
+                      "Ref": "AWS::Region"
+                    },
+                    ":",
+                    {
+                      "Ref": "AWS::AccountId"
+                    },
+                    ":log-group:CompliantFramework-InitializeOrganization"
+                  ]
+                ]
+              }
+            },
+            {
+              "Action": "ssm:GetParameter",
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "arn:",
+                    {
+                      "Ref": "AWS::Partition"
+                    },
+                    ":ssm:",
+                    {
+                      "Ref": "AWS::Region"
+                    },
+                    ":",
+                    {
+                      "Ref": "AWS::AccountId"
+                    },
+                    ":parameter/*"
+                  ]
+                ]
+              }
+            },
+            {
+              "Action": [
+                "organizations:ListRoots",
+                "organizations:DescribeOrganization",
+                "organizations:CreateOrganization"
+              ],
+              "Effect": "Allow",
+              "Resource": "*"
+            },
+            {
+              "Action": [
+                "organizations:ListOrganizationalUnitsForParent",
+                "organizations:CreateOrganizationalUnit"
+              ],
+              "Effect": "Allow",
+              "Resource": [
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition"
+                      },
+                      ":organizations::",
+                      {
+                        "Ref": "AWS::AccountId"
+                      },
+                      ":ou/o-*/ou-*"
+                    ]
+                  ]
+                },
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition"
+                      },
+                      ":organizations::",
+                      {
+                        "Ref": "AWS::AccountId"
+                      },
+                      ":root/o-*/r-*"
+                    ]
+                  ]
+                }
+              ]
+            },
+            {
+              "Action": "iam:CreateServiceLinkedRole",
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "arn:",
+                    {
+                      "Ref": "AWS::Partition"
+                    },
+                    ":iam::*:role/aws-service-role/*"
+                  ]
+                ]
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "PolicyName": "initializeOrganizationFunctionServiceRoleDefaultPolicy0CC31497",
+        "Roles": [
+          {
+            "Ref": "initializeOrganizationFunctionServiceRole834457E7"
+          }
+        ]
+      },
+      "Metadata": {
+        "cfn_nag": {
+          "rules_to_suppress": [
+            {
+              "id": "W12",
+              "reason": "Lambda permission actions require use of * resource"
+            }
+          ]
+        }
+      }
+    },
+    "initializeOrganizationFunction17F9AE62": {
+      "Type": "AWS::Lambda::Function",
+      "Properties": {
+        "Code": {
+          "S3Bucket": {
+            "Fn::Sub": "solutions-${AWS::Region}"
+          },
+          "S3Key": "compliant-framework-for-federal-and-dod-workloads-in-aws-govcloud-us/v1.0.0/asseted63cd57c28b112a143d1272719b1c2739fdfbe872fffa6a32320c82b20b38c7.zip"
+        },
+        "Handler": "index.lambda_handler",
+        "Role": {
+          "Fn::GetAtt": [
+            "initializeOrganizationFunctionServiceRole834457E7",
+            "Arn"
+          ]
+        },
+        "Runtime": "python3.8",
+        "FunctionName": "CompliantFramework-InitializeOrganization",
+        "Timeout": 300
+      },
+      "DependsOn": [
+        "initializeOrganizationFunctionServiceRoleDefaultPolicy0CC31497",
+        "initializeOrganizationFunctionServiceRole834457E7"
+      ],
+      "Metadata": {
+        "cfn_nag": {
+          "rules_to_suppress": [
+            {
+              "id": "W58",
+              "reason": "Lambda functions has the required permission to write CloudWatch Logs. It uses custom policy instead of arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole with more tighter permissions."
+            }
+          ]
+        }
+      }
+    },
+    "createAccountsFunctionServiceRole972636C0": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "lambda.amazonaws.com"
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "ManagedPolicyArns": [
+          {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition"
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+              ]
+            ]
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "compliant-framework-for-federal-and-dod-workloads-in-aws-govcloud-us/createAccountsFunction/ServiceRole/Resource"
+      }
+    },
+    "createAccountsFunctionServiceRoleDefaultPolicy95E89B67": {
+      "Type": "AWS::IAM::Policy",
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
+                "logs:CreateLogGroup",
+                "logs:CreateLogStream",
+                "logs:PutLogEvents"
+              ],
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "arn:",
+                    {
+                      "Ref": "AWS::Partition"
+                    },
+                    ":logs:",
+                    {
+                      "Ref": "AWS::Region"
+                    },
+                    ":",
+                    {
+                      "Ref": "AWS::AccountId"
+                    },
+                    ":log-group:CompliantFramework-CreateAccounts"
+                  ]
+                ]
+              }
+            },
+            {
+              "Action": "ssm:PutParameter",
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "arn:",
+                    {
+                      "Ref": "AWS::Partition"
+                    },
+                    ":ssm:",
+                    {
+                      "Ref": "AWS::Region"
+                    },
+                    ":",
+                    {
+                      "Ref": "AWS::AccountId"
+                    },
+                    ":parameter/*"
+                  ]
+                ]
+              }
+            },
+            {
+              "Action": [
+                "organizations:ListAccounts",
+                "organizations:CreateGovCloudAccount",
+                "organizations:DescribeCreateAccountStatus"
+              ],
+              "Effect": "Allow",
+              "Resource": "*"
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "PolicyName": "createAccountsFunctionServiceRoleDefaultPolicy95E89B67",
+        "Roles": [
+          {
+            "Ref": "createAccountsFunctionServiceRole972636C0"
+          }
+        ]
+      },
+      "Metadata": {
+        "cfn_nag": {
+          "rules_to_suppress": [
+            {
+              "id": "W12",
+              "reason": "Lambda permission actions require use of * resource"
+            }
+          ]
+        }
+      }
+    },
+    "createAccountsFunctionFB58C1F8": {
+      "Type": "AWS::Lambda::Function",
+      "Properties": {
+        "Code": {
+          "S3Bucket": {
+            "Fn::Sub": "solutions-${AWS::Region}"
+          },
+          "S3Key": "compliant-framework-for-federal-and-dod-workloads-in-aws-govcloud-us/v1.0.0/asset6580a024dbc30e5861de2915db7395ed299b4b895ff62badc79a536a91f24465.zip"
+        },
+        "Handler": "index.lambda_handler",
+        "Role": {
+          "Fn::GetAtt": [
+            "createAccountsFunctionServiceRole972636C0",
+            "Arn"
+          ]
+        },
+        "Runtime": "python3.8",
+        "FunctionName": "CompliantFramework-CreateAccounts",
+        "Timeout": 900
+      },
+      "DependsOn": [
+        "createAccountsFunctionServiceRoleDefaultPolicy95E89B67",
+        "createAccountsFunctionServiceRole972636C0"
+      ],
+      "Metadata": {
+        "cfn_nag": {
+          "rules_to_suppress": [
+            {
+              "id": "W58",
+              "reason": "Lambda functions has the required permission to write CloudWatch Logs. It uses custom policy instead of arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole with more tighter permissions."
+            }
+          ]
+        }
+      }
+    },
+    "inviteAccountsFunctionServiceRole0B9B2007": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "lambda.amazonaws.com"
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "ManagedPolicyArns": [
+          {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition"
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+              ]
+            ]
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "compliant-framework-for-federal-and-dod-workloads-in-aws-govcloud-us/inviteAccountsFunction/ServiceRole/Resource"
+      }
+    },
+    "inviteAccountsFunctionServiceRoleDefaultPolicy3A570F69": {
+      "Type": "AWS::IAM::Policy",
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
+                "logs:CreateLogGroup",
+                "logs:CreateLogStream",
+                "logs:PutLogEvents"
+              ],
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "arn:",
+                    {
+                      "Ref": "AWS::Partition"
+                    },
+                    ":logs:",
+                    {
+                      "Ref": "AWS::Region"
+                    },
+                    ":",
+                    {
+                      "Ref": "AWS::AccountId"
+                    },
+                    ":log-group:CompliantFramework-InviteAccounts"
+                  ]
+                ]
+              }
+            },
+            {
+              "Action": "ssm:GetParameter",
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "arn:",
+                    {
+                      "Ref": "AWS::Partition"
+                    },
+                    ":ssm:",
+                    {
+                      "Ref": "AWS::Region"
+                    },
+                    ":",
+                    {
+                      "Ref": "AWS::AccountId"
+                    },
+                    ":parameter/*"
+                  ]
+                ]
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "PolicyName": "inviteAccountsFunctionServiceRoleDefaultPolicy3A570F69",
+        "Roles": [
+          {
+            "Ref": "inviteAccountsFunctionServiceRole0B9B2007"
+          }
+        ]
+      },
+      "Metadata": {
+        "cfn_nag": {
+          "rules_to_suppress": [
+            {
+              "id": "W12",
+              "reason": "Lambda permission actions require use of * resource"
+            }
+          ]
+        }
+      }
+    },
+    "inviteAccountsFunction00B4D173": {
+      "Type": "AWS::Lambda::Function",
+      "Properties": {
+        "Code": {
+          "S3Bucket": {
+            "Fn::Sub": "solutions-${AWS::Region}"
+          },
+          "S3Key": "compliant-framework-for-federal-and-dod-workloads-in-aws-govcloud-us/v1.0.0/assetdac8d9de0759e03d00d1556e1367b1b43d2fe1fe103b8a4e1faee73d6f17de8d.zip"
+        },
+        "Handler": "index.lambda_handler",
+        "Role": {
+          "Fn::GetAtt": [
+            "inviteAccountsFunctionServiceRole0B9B2007",
+            "Arn"
+          ]
+        },
+        "Runtime": "python3.8",
+        "FunctionName": "CompliantFramework-InviteAccounts",
+        "Timeout": 900
+      },
+      "DependsOn": [
+        "inviteAccountsFunctionServiceRoleDefaultPolicy3A570F69",
+        "inviteAccountsFunctionServiceRole0B9B2007"
+      ],
+      "Metadata": {
+        "cfn_nag": {
+          "rules_to_suppress": [
+            {
+              "id": "W58",
+              "reason": "Lambda functions has the required permission to write CloudWatch Logs. It uses custom policy instead of arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole with more tighter permissions."
+            }
+          ]
+        }
+      }
+    },
+    "codebuildProjectRole6CB531BB": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "codebuild.amazonaws.com"
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "compliant-framework-for-federal-and-dod-workloads-in-aws-govcloud-us/codebuildProject/Role/Resource"
+      }
+    },
+    "codebuildProjectRoleDefaultPolicy99165EFB": {
+      "Type": "AWS::IAM::Policy",
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
+                "s3:GetObject*",
+                "s3:GetBucket*",
+                "s3:List*"
+              ],
+              "Effect": "Allow",
+              "Resource": [
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition"
+                      },
+                      ":s3:::solutions-",
+                      {
+                        "Ref": "AWS::Region"
+                      }
+                    ]
+                  ]
+                },
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition"
+                      },
+                      ":s3:::solutions-",
+                      {
+                        "Ref": "AWS::Region"
+                      },
+                      "/*"
+                    ]
+                  ]
+                }
+              ]
+            },
+            {
+              "Action": [
+                "logs:CreateLogGroup",
+                "logs:CreateLogStream",
+                "logs:PutLogEvents"
+              ],
+              "Effect": "Allow",
+              "Resource": [
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition"
+                      },
+                      ":logs:",
+                      {
+                        "Ref": "AWS::Region"
+                      },
+                      ":",
+                      {
+                        "Ref": "AWS::AccountId"
+                      },
+                      ":log-group:/aws/codebuild/",
+                      {
+                        "Ref": "codebuildProject67DCD283"
+                      }
+                    ]
+                  ]
+                },
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition"
+                      },
+                      ":logs:",
+                      {
+                        "Ref": "AWS::Region"
+                      },
+                      ":",
+                      {
+                        "Ref": "AWS::AccountId"
+                      },
+                      ":log-group:/aws/codebuild/",
+                      {
+                        "Ref": "codebuildProject67DCD283"
+                      },
+                      ":*"
+                    ]
+                  ]
+                }
+              ]
+            },
+            {
+              "Action": [
+                "codebuild:CreateReportGroup",
+                "codebuild:CreateReport",
+                "codebuild:UpdateReport",
+                "codebuild:BatchPutTestCases",
+                "codebuild:BatchPutCodeCoverages"
+              ],
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "arn:",
+                    {
+                      "Ref": "AWS::Partition"
+                    },
+                    ":codebuild:",
+                    {
+                      "Ref": "AWS::Region"
+                    },
+                    ":",
+                    {
+                      "Ref": "AWS::AccountId"
+                    },
+                    ":report-group/",
+                    {
+                      "Ref": "codebuildProject67DCD283"
+                    },
+                    "-*"
+                  ]
+                ]
+              }
+            },
+            {
+              "Action": [
+                "ssm:GetParameter",
+                "ssm:GetParameters"
+              ],
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "arn:",
+                    {
+                      "Ref": "AWS::Partition"
+                    },
+                    ":ssm:",
+                    {
+                      "Ref": "AWS::Region"
+                    },
+                    ":",
+                    {
+                      "Ref": "AWS::AccountId"
+                    },
+                    ":parameter/*"
+                  ]
+                ]
+              }
+            },
+            {
+              "Action": "cloudformation:DescribeStacks",
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "arn:",
+                    {
+                      "Ref": "AWS::Partition"
+                    },
+                    ":cloudformation:",
+                    {
+                      "Ref": "AWS::Region"
+                    },
+                    ":",
+                    {
+                      "Ref": "AWS::AccountId"
+                    },
+                    ":stack/",
+                    {
+                      "Ref": "AWS::StackName"
+                    },
+                    "/*"
+                  ]
+                ]
+              }
+            },
+            {
+              "Action": [
+                "organizations:DescribeOrganization",
+                "organizations:EnableAWSServiceAccess"
+              ],
+              "Effect": "Allow",
+              "Resource": "*"
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "PolicyName": "codebuildProjectRoleDefaultPolicy99165EFB",
+        "Roles": [
+          {
+            "Ref": "codebuildProjectRole6CB531BB"
+          }
+        ]
+      },
+      "Metadata": {
+        "cfn_nag": {
+          "rules_to_suppress": [
+            {
+              "id": "W12",
+              "reason": "CodeBuild project permission actions require use of * resource"
+            }
+          ]
+        }
+      }
+    },
+    "codebuildProject67DCD283": {
+      "Type": "AWS::CodeBuild::Project",
+      "Properties": {
+        "Artifacts": {
+          "Type": "NO_ARTIFACTS"
+        },
+        "Environment": {
+          "ComputeType": "BUILD_GENERAL1_SMALL",
+          "EnvironmentVariables": [
+            {
+              "Name": "STACK_NAME",
+              "Type": "PLAINTEXT",
+              "Value": {
+                "Ref": "AWS::StackName"
+              }
+            },
+            {
+              "Name": "VERSION",
+              "Type": "PLAINTEXT",
+              "Value": "v1.0.0"
+            }
+          ],
+          "Image": "aws/codebuild/standard:3.0",
+          "PrivilegedMode": false,
+          "Type": "LINUX_CONTAINER"
+        },
+        "ServiceRole": {
+          "Fn::GetAtt": [
+            "codebuildProjectRole6CB531BB",
+            "Arn"
+          ]
+        },
+        "Source": {
+          "Location": {
+            "Fn::Join": [
+              "",
+              [
+                "solutions-",
+                {
+                  "Ref": "AWS::Region"
+                },
+                "/compliant-framework-for-federal-and-dod-workloads-in-aws-govcloud-us/v1.0.0/repos.zip"
+              ]
+            ]
+          },
+          "Type": "S3"
+        },
+        "EncryptionKey": "alias/aws/s3",
+        "Name": "CompliantFramework",
+        "TimeoutInMinutes": 240
+      },
+      "Metadata": {
+        "aws:cdk:path": "compliant-framework-for-federal-and-dod-workloads-in-aws-govcloud-us/codebuildProject/Resource"
+      }
+    },
+    "stateMachineLogGroupE6C5AE73": {
+      "Type": "AWS::Logs::LogGroup",
+      "Properties": {
+        "RetentionInDays": 731
+      },
+      "UpdateReplacePolicy": "Delete",
+      "DeletionPolicy": "Delete",
+      "Metadata": {
+        "aws:cdk:path": "compliant-framework-for-federal-and-dod-workloads-in-aws-govcloud-us/stateMachineLogGroup/Resource"
+      }
+    },
+    "stateMachineRole64DF9B42": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "states.",
+                      {
+                        "Ref": "AWS::Region"
+                      },
+                      ".amazonaws.com"
+                    ]
+                  ]
+                }
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "compliant-framework-for-federal-and-dod-workloads-in-aws-govcloud-us/stateMachine/Role/Resource"
+      }
+    },
+    "stateMachineRoleDefaultPolicy9579E9AD": {
+      "Type": "AWS::IAM::Policy",
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
+                "logs:CreateLogDelivery",
+                "logs:GetLogDelivery",
+                "logs:UpdateLogDelivery",
+                "logs:DeleteLogDelivery",
+                "logs:ListLogDeliveries",
+                "logs:PutResourcePolicy",
+                "logs:DescribeResourcePolicies",
+                "logs:DescribeLogGroups"
+              ],
+              "Effect": "Allow",
+              "Resource": "*"
+            },
+            {
+              "Action": "lambda:InvokeFunction",
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::GetAtt": [
+                  "verifySnsSubscriptionFunctionD2B6A41B",
+                  "Arn"
+                ]
+              }
+            },
+            {
+              "Action": "lambda:InvokeFunction",
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::GetAtt": [
+                  "verifyGovCloudApiKeysFunction9640DE12",
+                  "Arn"
+                ]
+              }
+            },
+            {
+              "Action": "lambda:InvokeFunction",
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::GetAtt": [
+                  "initializeOrganizationFunction17F9AE62",
+                  "Arn"
+                ]
+              }
+            },
+            {
+              "Action": "lambda:InvokeFunction",
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::GetAtt": [
+                  "createAccountsFunctionFB58C1F8",
+                  "Arn"
+                ]
+              }
+            },
+            {
+              "Action": "lambda:InvokeFunction",
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::GetAtt": [
+                  "inviteAccountsFunction00B4D173",
+                  "Arn"
+                ]
+              }
+            },
+            {
+              "Action": [
+                "codebuild:StartBuild",
+                "codebuild:StopBuild",
+                "codebuild:BatchGetBuilds",
+                "codebuild:BatchGetReports"
+              ],
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::GetAtt": [
+                  "codebuildProject67DCD283",
+                  "Arn"
+                ]
+              }
+            },
+            {
+              "Action": [
+                "events:PutTargets",
+                "events:PutRule",
+                "events:DescribeRule"
+              ],
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "arn:",
+                    {
+                      "Ref": "AWS::Partition"
+                    },
+                    ":events:",
+                    {
+                      "Ref": "AWS::Region"
+                    },
+                    ":",
+                    {
+                      "Ref": "AWS::AccountId"
+                    },
+                    ":rule/StepFunctionsGetEventForCodeBuildStartBuildRule"
+                  ]
+                ]
+              }
+            },
+            {
+              "Action": "lambda:InvokeFunction",
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::GetAtt": [
+                  "notifySuccessFunction2BDC0619",
+                  "Arn"
+                ]
+              }
+            },
+            {
+              "Action": "lambda:InvokeFunction",
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::GetAtt": [
+                  "notifyFailureFunction70665153",
+                  "Arn"
+                ]
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "PolicyName": "stateMachineRoleDefaultPolicy9579E9AD",
+        "Roles": [
+          {
+            "Ref": "stateMachineRole64DF9B42"
+          }
+        ]
+      },
+      "Metadata": {
+        "cfn_nag": {
+          "rules_to_suppress": [
+            {
+              "id": "W12",
+              "reason": "State machine permission actions require use of * resource"
+            },
+            {
+              "id": "W76",
+              "reason": "SPCM for IAM policy document is higher than 25"
+            }
+          ]
+        }
+      }
+    },
+    "stateMachineE926C166": {
+      "Type": "AWS::StepFunctions::StateMachine",
+      "Properties": {
+        "RoleArn": {
+          "Fn::GetAtt": [
+            "stateMachineRole64DF9B42",
+            "Arn"
+          ]
+        },
+        "DefinitionString": {
+          "Fn::Join": [
+            "",
+            [
+              "{\"StartAt\":\"Begin State Function\",\"States\":{\"Begin State Function\":{\"Type\":\"Pass\",\"Next\":\"Verify SNS Subscription\"},\"Verify SNS Subscription\":{\"Next\":\"Verify GovCloud API Keys\",\"Retry\":[{\"ErrorEquals\":[\"Lambda.ServiceException\",\"Lambda.AWSLambdaException\",\"Lambda.SdkClientException\"],\"IntervalSeconds\":2,\"MaxAttempts\":6,\"BackoffRate\":2},{\"ErrorEquals\":[\"States.ALL\"],\"IntervalSeconds\":30,\"MaxAttempts\":5}],\"Catch\":[{\"ErrorEquals\":[\"States.ALL\"],\"Next\":\"Notify Failure\"}],\"Type\":\"Task\",\"Resource\":\"arn:",
+              {
+                "Ref": "AWS::Partition"
+              },
+              ":states:::lambda:invoke\",\"Parameters\":{\"FunctionName\":\"",
+              {
+                "Fn::GetAtt": [
+                  "verifySnsSubscriptionFunctionD2B6A41B",
+                  "Arn"
+                ]
+              },
+              "\",\"Payload\":\"{\\\"SnsTopicArn\\\":\\\"",
+              {
+                "Ref": "alertTopic73F0F6D1"
+              },
+              "\\\"}\"}},\"Verify GovCloud API Keys\":{\"Next\":\"Initialize Organization\",\"Retry\":[{\"ErrorEquals\":[\"Lambda.ServiceException\",\"Lambda.AWSLambdaException\",\"Lambda.SdkClientException\"],\"IntervalSeconds\":2,\"MaxAttempts\":6,\"BackoffRate\":2}],\"Catch\":[{\"ErrorEquals\":[\"States.ALL\"],\"Next\":\"Notify Failure\"}],\"Type\":\"Task\",\"Resource\":\"arn:",
+              {
+                "Ref": "AWS::Partition"
+              },
+              ":states:::lambda:invoke\",\"Parameters\":{\"FunctionName\":\"",
+              {
+                "Fn::GetAtt": [
+                  "verifyGovCloudApiKeysFunction9640DE12",
+                  "Arn"
+                ]
+              },
+              "\",\"Payload.$\":\"$\"}},\"Initialize Organization\":{\"Next\":\"Create Accounts\",\"Retry\":[{\"ErrorEquals\":[\"Lambda.ServiceException\",\"Lambda.AWSLambdaException\",\"Lambda.SdkClientException\"],\"IntervalSeconds\":2,\"MaxAttempts\":6,\"BackoffRate\":2}],\"Catch\":[{\"ErrorEquals\":[\"States.ALL\"],\"Next\":\"Notify Failure\"}],\"Type\":\"Task\",\"Resource\":\"arn:",
+              {
+                "Ref": "AWS::Partition"
+              },
+              ":states:::lambda:invoke\",\"Parameters\":{\"FunctionName\":\"",
+              {
+                "Fn::GetAtt": [
+                  "initializeOrganizationFunction17F9AE62",
+                  "Arn"
+                ]
+              },
+              "\",\"Payload.$\":\"$\"}},\"Create Accounts\":{\"Next\":\"Invite Accounts\",\"Retry\":[{\"ErrorEquals\":[\"Lambda.ServiceException\",\"Lambda.AWSLambdaException\",\"Lambda.SdkClientException\"],\"IntervalSeconds\":2,\"MaxAttempts\":6,\"BackoffRate\":2}],\"Catch\":[{\"ErrorEquals\":[\"States.ALL\"],\"Next\":\"Notify Failure\"}],\"Type\":\"Task\",\"Resource\":\"arn:",
+              {
+                "Ref": "AWS::Partition"
+              },
+              ":states:::lambda:invoke\",\"Parameters\":{\"FunctionName\":\"",
+              {
+                "Fn::GetAtt": [
+                  "createAccountsFunctionFB58C1F8",
+                  "Arn"
+                ]
+              },
+              "\",\"Payload\":\"{\\\"LoggingAccountEmail\\\":\\\"",
+              {
+                "Ref": "loggingAccountEmail"
+              },
+              "\\\",\\\"ManagementServicesAccountEmail\\\":\\\"",
+              {
+                "Ref": "managementServicesAccountEmail"
+              },
+              "\\\",\\\"TransitAccountEmail\\\":\\\"",
+              {
+                "Ref": "transitAccountEmail"
+              },
+              "\\\"}\"}},\"Invite Accounts\":{\"Next\":\"Deploy Framework\",\"Retry\":[{\"ErrorEquals\":[\"Lambda.ServiceException\",\"Lambda.AWSLambdaException\",\"Lambda.SdkClientException\"],\"IntervalSeconds\":2,\"MaxAttempts\":6,\"BackoffRate\":2},{\"ErrorEquals\":[\"States.ALL\"],\"IntervalSeconds\":30,\"MaxAttempts\":5}],\"Catch\":[{\"ErrorEquals\":[\"States.ALL\"],\"Next\":\"Notify Failure\"}],\"Type\":\"Task\",\"Resource\":\"arn:",
+              {
+                "Ref": "AWS::Partition"
+              },
+              ":states:::lambda:invoke\",\"Parameters\":{\"FunctionName\":\"",
+              {
+                "Fn::GetAtt": [
+                  "inviteAccountsFunction00B4D173",
+                  "Arn"
+                ]
+              },
+              "\",\"Payload\":\"{\\\"LoggingAccountEmail\\\":\\\"",
+              {
+                "Ref": "loggingAccountEmail"
+              },
+              "\\\",\\\"ManagementServicesAccountEmail\\\":\\\"",
+              {
+                "Ref": "managementServicesAccountEmail"
+              },
+              "\\\",\\\"TransitAccountEmail\\\":\\\"",
+              {
+                "Ref": "transitAccountEmail"
+              },
+              "\\\"}\"}},\"Deploy Framework\":{\"Next\":\"Notify Success\",\"Catch\":[{\"ErrorEquals\":[\"States.ALL\"],\"Next\":\"Notify Failure\"}],\"Type\":\"Task\",\"Resource\":\"arn:",
+              {
+                "Ref": "AWS::Partition"
+              },
+              ":states:::codebuild:startBuild.sync\",\"Parameters\":{\"ProjectName\":\"",
+              {
+                "Ref": "codebuildProject67DCD283"
+              },
+              "\"}},\"Notify Success\":{\"End\":true,\"Retry\":[{\"ErrorEquals\":[\"Lambda.ServiceException\",\"Lambda.AWSLambdaException\",\"Lambda.SdkClientException\"],\"IntervalSeconds\":2,\"MaxAttempts\":6,\"BackoffRate\":2}],\"Type\":\"Task\",\"Resource\":\"arn:",
+              {
+                "Ref": "AWS::Partition"
+              },
+              ":states:::lambda:invoke\",\"Parameters\":{\"FunctionName\":\"",
+              {
+                "Fn::GetAtt": [
+                  "notifySuccessFunction2BDC0619",
+                  "Arn"
+                ]
+              },
+              "\",\"Payload.$\":\"$\"}},\"Notify Failure\":{\"Next\":\"Failed\",\"Retry\":[{\"ErrorEquals\":[\"Lambda.ServiceException\",\"Lambda.AWSLambdaException\",\"Lambda.SdkClientException\"],\"IntervalSeconds\":2,\"MaxAttempts\":6,\"BackoffRate\":2}],\"Type\":\"Task\",\"Resource\":\"arn:",
+              {
+                "Ref": "AWS::Partition"
+              },
+              ":states:::lambda:invoke\",\"Parameters\":{\"FunctionName\":\"",
+              {
+                "Fn::GetAtt": [
+                  "notifyFailureFunction70665153",
+                  "Arn"
+                ]
+              },
+              "\",\"Payload.$\":\"$.Cause\"}},\"Failed\":{\"Type\":\"Fail\"}}}"
+            ]
+          ]
+        },
+        "LoggingConfiguration": {
+          "Destinations": [
+            {
+              "CloudWatchLogsLogGroup": {
+                "LogGroupArn": {
+                  "Fn::GetAtt": [
+                    "stateMachineLogGroupE6C5AE73",
+                    "Arn"
+                  ]
+                }
+              }
+            }
+          ],
+          "Level": "ALL"
+        },
+        "StateMachineName": "CompliantFramework"
+      },
+      "DependsOn": [
+        "stateMachineRoleDefaultPolicy9579E9AD",
+        "stateMachineRole64DF9B42"
+      ],
+      "Metadata": {
+        "aws:cdk:path": "compliant-framework-for-federal-and-dod-workloads-in-aws-govcloud-us/stateMachine/Resource"
+      }
+    },
+    "executeStateMachineFunctionServiceRoleC6A17ADA": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "lambda.amazonaws.com"
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "ManagedPolicyArns": [
+          {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition"
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+              ]
+            ]
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "compliant-framework-for-federal-and-dod-workloads-in-aws-govcloud-us/executeStateMachineFunction/ServiceRole/Resource"
+      }
+    },
+    "executeStateMachineFunctionServiceRoleDefaultPolicy80D4588B": {
+      "Type": "AWS::IAM::Policy",
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
+                "logs:CreateLogGroup",
+                "logs:CreateLogStream",
+                "logs:PutLogEvents"
+              ],
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "arn:",
+                    {
+                      "Ref": "AWS::Partition"
+                    },
+                    ":logs:",
+                    {
+                      "Ref": "AWS::Region"
+                    },
+                    ":",
+                    {
+                      "Ref": "AWS::AccountId"
+                    },
+                    ":log-group:CompliantFramework-ExecuteStateMachine"
+                  ]
+                ]
+              }
+            },
+            {
+              "Action": "states:StartExecution",
+              "Effect": "Allow",
+              "Resource": {
+                "Ref": "stateMachineE926C166"
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "PolicyName": "executeStateMachineFunctionServiceRoleDefaultPolicy80D4588B",
+        "Roles": [
+          {
+            "Ref": "executeStateMachineFunctionServiceRoleC6A17ADA"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "compliant-framework-for-federal-and-dod-workloads-in-aws-govcloud-us/executeStateMachineFunction/ServiceRole/DefaultPolicy/Resource"
+      }
+    },
+    "executeStateMachineFunctionB75599DD": {
+      "Type": "AWS::Lambda::Function",
+      "Properties": {
+        "Code": {
+          "S3Bucket": {
+            "Fn::Sub": "solutions-${AWS::Region}"
+          },
+          "S3Key": "compliant-framework-for-federal-and-dod-workloads-in-aws-govcloud-us/v1.0.0/asset5f78a1b1271f89a5867b09eaa43f4ebe1fdae0dde1c75f5bd4ca6b6e9f24f1da.zip"
+        },
+        "Handler": "index.lambda_handler",
+        "Role": {
+          "Fn::GetAtt": [
+            "executeStateMachineFunctionServiceRoleC6A17ADA",
+            "Arn"
+          ]
+        },
+        "Runtime": "python3.8",
+        "Environment": {
+          "Variables": {
+            "STATE_MACHINE_ARN": {
+              "Ref": "stateMachineE926C166"
+            }
+          }
+        },
+        "FunctionName": "CompliantFramework-ExecuteStateMachine",
+        "Timeout": 600
+      },
+      "DependsOn": [
+        "executeStateMachineFunctionServiceRoleDefaultPolicy80D4588B",
+        "executeStateMachineFunctionServiceRoleC6A17ADA"
+      ],
+      "Metadata": {
+        "cfn_nag": {
+          "rules_to_suppress": [
+            {
+              "id": "W58",
+              "reason": "Lambda functions has the required permission to write CloudWatch Logs. It uses custom policy instead of arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole with more tighter permissions."
+            }
+          ]
+        }
+      }
+    },
+    "executeStateMachine": {
+      "Type": "AWS::CloudFormation::CustomResource",
+      "Properties": {
+        "ServiceToken": {
+          "Fn::GetAtt": [
+            "executeStateMachineFunctionB75599DD",
+            "Arn"
+          ]
+        },
+        "Date": "12/16/2020, 5:11:06 PM"
+      },
+      "UpdateReplacePolicy": "Delete",
+      "DeletionPolicy": "Delete",
+      "Metadata": {
+        "aws:cdk:path": "compliant-framework-for-federal-and-dod-workloads-in-aws-govcloud-us/executeStateMachine/Default"
+      }
+    },
+    "AccountVendingMachineAvmCreateGovCloudAccountFunctionServiceRoleBD9798CC": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "lambda.amazonaws.com"
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "ManagedPolicyArns": [
+          {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition"
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+              ]
+            ]
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "compliant-framework-for-federal-and-dod-workloads-in-aws-govcloud-us/AccountVendingMachine/AvmCreateGovCloudAccountFunction/ServiceRole/Resource"
+      }
+    },
+    "AccountVendingMachineAvmCreateGovCloudAccountFunctionServiceRoleDefaultPolicy1207ADBD": {
+      "Type": "AWS::IAM::Policy",
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
+                "logs:CreateLogGroup",
+                "logs:CreateLogStream",
+                "logs:PutLogEvents"
+              ],
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "arn:",
+                    {
+                      "Ref": "AWS::Partition"
+                    },
+                    ":logs:",
+                    {
+                      "Ref": "AWS::Region"
+                    },
+                    ":",
+                    {
+                      "Ref": "AWS::AccountId"
+                    },
+                    ":log-group:CompliantFramework-AvmCreateGovCloudAccount"
+                  ]
+                ]
+              }
+            },
+            {
+              "Action": [
+                "organizations:CreateGovCloudAccount",
+                "organizations:ListAccounts",
+                "organizations:DescribeCreateAccountStatus"
+              ],
+              "Effect": "Allow",
+              "Resource": "*"
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "PolicyName": "AccountVendingMachineAvmCreateGovCloudAccountFunctionServiceRoleDefaultPolicy1207ADBD",
+        "Roles": [
+          {
+            "Ref": "AccountVendingMachineAvmCreateGovCloudAccountFunctionServiceRoleBD9798CC"
+          }
+        ]
+      },
+      "Metadata": {
+        "cfn_nag": {
+          "rules_to_suppress": [
+            {
+              "id": "W12",
+              "reason": "Lambda permission actions require use of * resource"
+            }
+          ]
+        }
+      }
+    },
+    "AccountVendingMachineAvmCreateGovCloudAccountFunction76C51DFD": {
+      "Type": "AWS::Lambda::Function",
+      "Properties": {
+        "Code": {
+          "S3Bucket": {
+            "Fn::Sub": "solutions-${AWS::Region}"
+          },
+          "S3Key": "compliant-framework-for-federal-and-dod-workloads-in-aws-govcloud-us/v1.0.0/assetc6adad74fe7d545d4548865e1e221de8a515f511506752ab5e8d13d914c7d91d.zip"
+        },
+        "Handler": "index.lambda_handler",
+        "Role": {
+          "Fn::GetAtt": [
+            "AccountVendingMachineAvmCreateGovCloudAccountFunctionServiceRoleBD9798CC",
+            "Arn"
+          ]
+        },
+        "Runtime": "python3.8",
+        "FunctionName": "CompliantFramework-AvmCreateGovCloudAccount",
+        "Timeout": 900
+      },
+      "DependsOn": [
+        "AccountVendingMachineAvmCreateGovCloudAccountFunctionServiceRoleDefaultPolicy1207ADBD",
+        "AccountVendingMachineAvmCreateGovCloudAccountFunctionServiceRoleBD9798CC"
+      ],
+      "Metadata": {
+        "cfn_nag": {
+          "rules_to_suppress": [
+            {
+              "id": "W58",
+              "reason": "Lambda functions has the required permission to write CloudWatch Logs. It uses custom policy instead of arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole with more tighter permissions."
+            }
+          ]
+        }
+      }
+    },
+    "AccountVendingMachineAvmInviteGovCloudAccountFunctionServiceRole36AE2041": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "lambda.amazonaws.com"
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "ManagedPolicyArns": [
+          {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition"
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+              ]
+            ]
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "compliant-framework-for-federal-and-dod-workloads-in-aws-govcloud-us/AccountVendingMachine/AvmInviteGovCloudAccountFunction/ServiceRole/Resource"
+      }
+    },
+    "AccountVendingMachineAvmInviteGovCloudAccountFunctionServiceRoleDefaultPolicy8D4E1BEF": {
+      "Type": "AWS::IAM::Policy",
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
+                "logs:CreateLogGroup",
+                "logs:CreateLogStream",
+                "logs:PutLogEvents"
+              ],
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "arn:",
+                    {
+                      "Ref": "AWS::Partition"
+                    },
+                    ":logs:",
+                    {
+                      "Ref": "AWS::Region"
+                    },
+                    ":",
+                    {
+                      "Ref": "AWS::AccountId"
+                    },
+                    ":log-group:CompliantFramework-AvmInviteGovCloudAccount"
+                  ]
+                ]
+              }
+            },
+            {
+              "Action": "ssm:GetParameter",
+              "Effect": "Allow",
+              "Resource": [
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition"
+                      },
+                      ":ssm:",
+                      {
+                        "Ref": "AWS::Region"
+                      },
+                      ":",
+                      {
+                        "Ref": "AWS::AccountId"
+                      },
+                      ":parameter/compliant/framework/central-avm/aws-us-gov/access-key-id"
+                    ]
+                  ]
+                },
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition"
+                      },
+                      ":ssm:",
+                      {
+                        "Ref": "AWS::Region"
+                      },
+                      ":",
+                      {
+                        "Ref": "AWS::AccountId"
+                      },
+                      ":parameter/compliant/framework/central-avm/aws-us-gov/secret-access-key"
+                    ]
+                  ]
+                }
+              ]
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "PolicyName": "AccountVendingMachineAvmInviteGovCloudAccountFunctionServiceRoleDefaultPolicy8D4E1BEF",
+        "Roles": [
+          {
+            "Ref": "AccountVendingMachineAvmInviteGovCloudAccountFunctionServiceRole36AE2041"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "compliant-framework-for-federal-and-dod-workloads-in-aws-govcloud-us/AccountVendingMachine/AvmInviteGovCloudAccountFunction/ServiceRole/DefaultPolicy/Resource"
+      }
+    },
+    "AccountVendingMachineAvmInviteGovCloudAccountFunction79216E43": {
+      "Type": "AWS::Lambda::Function",
+      "Properties": {
+        "Code": {
+          "S3Bucket": {
+            "Fn::Sub": "solutions-${AWS::Region}"
+          },
+          "S3Key": "compliant-framework-for-federal-and-dod-workloads-in-aws-govcloud-us/v1.0.0/assete3aefa62a1fc855c0294151c504d52f25d27ea36af85de4b4841edc726ac0253.zip"
+        },
+        "Handler": "index.lambda_handler",
+        "Role": {
+          "Fn::GetAtt": [
+            "AccountVendingMachineAvmInviteGovCloudAccountFunctionServiceRole36AE2041",
+            "Arn"
+          ]
+        },
+        "Runtime": "python3.8",
+        "FunctionName": "CompliantFramework-AvmInviteGovCloudAccount",
+        "Timeout": 900
+      },
+      "DependsOn": [
+        "AccountVendingMachineAvmInviteGovCloudAccountFunctionServiceRoleDefaultPolicy8D4E1BEF",
+        "AccountVendingMachineAvmInviteGovCloudAccountFunctionServiceRole36AE2041"
+      ],
+      "Metadata": {
+        "cfn_nag": {
+          "rules_to_suppress": [
+            {
+              "id": "W58",
+              "reason": "Lambda functions has the required permission to write CloudWatch Logs. It uses custom policy instead of arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole with more tighter permissions."
+            }
+          ]
+        }
+      }
+    },
+    "AccountVendingMachineAvmGetOuFunctionServiceRole50C77B81": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "lambda.amazonaws.com"
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "ManagedPolicyArns": [
+          {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition"
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+              ]
+            ]
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "compliant-framework-for-federal-and-dod-workloads-in-aws-govcloud-us/AccountVendingMachine/AvmGetOuFunction/ServiceRole/Resource"
+      }
+    },
+    "AccountVendingMachineAvmGetOuFunctionServiceRoleDefaultPolicy38133BB2": {
+      "Type": "AWS::IAM::Policy",
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
+                "logs:CreateLogGroup",
+                "logs:CreateLogStream",
+                "logs:PutLogEvents"
+              ],
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "arn:",
+                    {
+                      "Ref": "AWS::Partition"
+                    },
+                    ":logs:",
+                    {
+                      "Ref": "AWS::Region"
+                    },
+                    ":",
+                    {
+                      "Ref": "AWS::AccountId"
+                    },
+                    ":log-group:CompliantFramework-AvmGetOu"
+                  ]
+                ]
+              }
+            },
+            {
+              "Action": "ssm:GetParameter",
+              "Effect": "Allow",
+              "Resource": [
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition"
+                      },
+                      ":ssm:",
+                      {
+                        "Ref": "AWS::Region"
+                      },
+                      ":",
+                      {
+                        "Ref": "AWS::AccountId"
+                      },
+                      ":parameter/compliant/framework/central-avm/aws-us-gov/access-key-id"
+                    ]
+                  ]
+                },
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition"
+                      },
+                      ":ssm:",
+                      {
+                        "Ref": "AWS::Region"
+                      },
+                      ":",
+                      {
+                        "Ref": "AWS::AccountId"
+                      },
+                      ":parameter/compliant/framework/central-avm/aws-us-gov/secret-access-key"
+                    ]
+                  ]
+                }
+              ]
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "PolicyName": "AccountVendingMachineAvmGetOuFunctionServiceRoleDefaultPolicy38133BB2",
+        "Roles": [
+          {
+            "Ref": "AccountVendingMachineAvmGetOuFunctionServiceRole50C77B81"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "compliant-framework-for-federal-and-dod-workloads-in-aws-govcloud-us/AccountVendingMachine/AvmGetOuFunction/ServiceRole/DefaultPolicy/Resource"
+      }
+    },
+    "AccountVendingMachineAvmGetOuFunctionAFDB4577": {
+      "Type": "AWS::Lambda::Function",
+      "Properties": {
+        "Code": {
+          "S3Bucket": {
+            "Fn::Sub": "solutions-${AWS::Region}"
+          },
+          "S3Key": "compliant-framework-for-federal-and-dod-workloads-in-aws-govcloud-us/v1.0.0/asset533cd1850bbeca4f90b86d16347d4c50310784f2fab9ccf73d1885ebc11487d2.zip"
+        },
+        "Handler": "index.lambda_handler",
+        "Role": {
+          "Fn::GetAtt": [
+            "AccountVendingMachineAvmGetOuFunctionServiceRole50C77B81",
+            "Arn"
+          ]
+        },
+        "Runtime": "python3.8",
+        "FunctionName": "CompliantFramework-AvmGetOu",
+        "Timeout": 900
+      },
+      "DependsOn": [
+        "AccountVendingMachineAvmGetOuFunctionServiceRoleDefaultPolicy38133BB2",
+        "AccountVendingMachineAvmGetOuFunctionServiceRole50C77B81"
+      ],
+      "Metadata": {
+        "cfn_nag": {
+          "rules_to_suppress": [
+            {
+              "id": "W58",
+              "reason": "Lambda functions has the required permission to write CloudWatch Logs. It uses custom policy instead of arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole with more tighter permissions."
+            }
+          ]
+        }
+      }
+    },
+    "AccountVendingMachineAvmMoveAccountFunctionServiceRole0AC3DCCA": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "lambda.amazonaws.com"
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "ManagedPolicyArns": [
+          {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition"
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+              ]
+            ]
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "compliant-framework-for-federal-and-dod-workloads-in-aws-govcloud-us/AccountVendingMachine/AvmMoveAccountFunction/ServiceRole/Resource"
+      }
+    },
+    "AccountVendingMachineAvmMoveAccountFunctionServiceRoleDefaultPolicy9FDDA308": {
+      "Type": "AWS::IAM::Policy",
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
+                "logs:CreateLogGroup",
+                "logs:CreateLogStream",
+                "logs:PutLogEvents"
+              ],
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "arn:",
+                    {
+                      "Ref": "AWS::Partition"
+                    },
+                    ":logs:",
+                    {
+                      "Ref": "AWS::Region"
+                    },
+                    ":",
+                    {
+                      "Ref": "AWS::AccountId"
+                    },
+                    ":log-group:CompliantFramework-AvmMoveAccount"
+                  ]
+                ]
+              }
+            },
+            {
+              "Action": "ssm:GetParameter",
+              "Effect": "Allow",
+              "Resource": [
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition"
+                      },
+                      ":ssm:",
+                      {
+                        "Ref": "AWS::Region"
+                      },
+                      ":",
+                      {
+                        "Ref": "AWS::AccountId"
+                      },
+                      ":parameter/compliant/framework/central-avm/aws-us-gov/access-key-id"
+                    ]
+                  ]
+                },
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition"
+                      },
+                      ":ssm:",
+                      {
+                        "Ref": "AWS::Region"
+                      },
+                      ":",
+                      {
+                        "Ref": "AWS::AccountId"
+                      },
+                      ":parameter/compliant/framework/central-avm/aws-us-gov/secret-access-key"
+                    ]
+                  ]
+                }
+              ]
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "PolicyName": "AccountVendingMachineAvmMoveAccountFunctionServiceRoleDefaultPolicy9FDDA308",
+        "Roles": [
+          {
+            "Ref": "AccountVendingMachineAvmMoveAccountFunctionServiceRole0AC3DCCA"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "compliant-framework-for-federal-and-dod-workloads-in-aws-govcloud-us/AccountVendingMachine/AvmMoveAccountFunction/ServiceRole/DefaultPolicy/Resource"
+      }
+    },
+    "AccountVendingMachineAvmMoveAccountFunctionC2DAD196": {
+      "Type": "AWS::Lambda::Function",
+      "Properties": {
+        "Code": {
+          "S3Bucket": {
+            "Fn::Sub": "solutions-${AWS::Region}"
+          },
+          "S3Key": "compliant-framework-for-federal-and-dod-workloads-in-aws-govcloud-us/v1.0.0/assetdb7c97b8d82bc85a44cb7c0cb5234ecd1e4f92260592956b9b066919d5303cfe.zip"
+        },
+        "Handler": "index.lambda_handler",
+        "Role": {
+          "Fn::GetAtt": [
+            "AccountVendingMachineAvmMoveAccountFunctionServiceRole0AC3DCCA",
+            "Arn"
+          ]
+        },
+        "Runtime": "python3.8",
+        "FunctionName": "CompliantFramework-AvmMoveAccount",
+        "Timeout": 900
+      },
+      "DependsOn": [
+        "AccountVendingMachineAvmMoveAccountFunctionServiceRoleDefaultPolicy9FDDA308",
+        "AccountVendingMachineAvmMoveAccountFunctionServiceRole0AC3DCCA"
+      ],
+      "Metadata": {
+        "cfn_nag": {
+          "rules_to_suppress": [
+            {
+              "id": "W58",
+              "reason": "Lambda functions has the required permission to write CloudWatch Logs. It uses custom policy instead of arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole with more tighter permissions."
+            }
+          ]
+        }
+      }
+    },
+    "AccountVendingMachinePortfolio854DB4D1": {
+      "Type": "AWS::ServiceCatalog::Portfolio",
+      "Properties": {
+        "DisplayName": "Compliant Framework - Tenant Services",
+        "ProviderName": "Compliant Framework"
+      },
+      "Metadata": {
+        "aws:cdk:path": "compliant-framework-for-federal-and-dod-workloads-in-aws-govcloud-us/AccountVendingMachine/Portfolio"
+      }
+    },
+    "AccountVendingMachineAvmForGovCloudProductV100CB940AD5": {
+      "Type": "AWS::ServiceCatalog::CloudFormationProduct",
+      "Properties": {
+        "Name": "Account Vending Machine for AWS GovCloud (US)",
+        "Owner": "Compliant Framework",
+        "ProvisioningArtifactParameters": [
+          {
+            "Info": {
+              "LoadTemplateFromURL": {
+                "Fn::Sub": "https://solutions-${AWS::Region}.s3.amazonaws.com/compliant-framework-for-federal-and-dod-workloads-in-aws-govcloud-us/v1.0.0/compliant-framework-govcloud-account-product-v1.0.0.yml"
+              }
+            },
+            "Name": "v1.0.0"
+          }
+        ],
+        "Description": "Creates a new GovCloud account using the CreateGovCloudAccount API. This product requires the creation of AWS CLI Keys for the Central GovCloud account with the proper permissions and stored as /compliant/framework/central-avm/aws-us-gov/access-key-id and /compliant/framework/central-avm/aws-us-gov/secret-access-key into SSM Parameter Store. Please see the implementation guide for more details on setting the IAM permissions",
+        "Distributor": "Compliant Framework"
+      },
+      "Metadata": {
+        "aws:cdk:path": "compliant-framework-for-federal-and-dod-workloads-in-aws-govcloud-us/AccountVendingMachine/AvmForGovCloudProductV100"
+      }
+    },
+    "AccountVendingMachineAvmForGovCloudV100ProductAssociation62529B8B": {
+      "Type": "AWS::ServiceCatalog::PortfolioProductAssociation",
+      "Properties": {
+        "PortfolioId": {
+          "Ref": "AccountVendingMachinePortfolio854DB4D1"
+        },
+        "ProductId": {
+          "Ref": "AccountVendingMachineAvmForGovCloudProductV100CB940AD5"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "compliant-framework-for-federal-and-dod-workloads-in-aws-govcloud-us/AccountVendingMachine/AvmForGovCloudV100ProductAssociation"
+      }
+    },
+    "SolutionHelperRoleC017C62A": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "lambda.amazonaws.com"
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "Policies": [
+          {
+            "PolicyDocument": {
+              "Statement": [
+                {
+                  "Action": [
+                    "logs:CreateLogGroup",
+                    "logs:CreateLogStream",
+                    "logs:PutLogEvents"
+                  ],
+                  "Effect": "Allow",
+                  "Resource": {
+                    "Fn::Join": [
+                      "",
+                      [
+                        "arn:",
+                        {
+                          "Ref": "AWS::Partition"
+                        },
+                        ":logs:",
+                        {
+                          "Ref": "AWS::Region"
+                        },
+                        ":",
+                        {
+                          "Ref": "AWS::AccountId"
+                        },
+                        ":log-group:/aws/lambda/*"
+                      ]
+                    ]
+                  }
+                }
+              ],
+              "Version": "2012-10-17"
+            },
+            "PolicyName": "CloudWatchLogsPolicy"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "compliant-framework-for-federal-and-dod-workloads-in-aws-govcloud-us/SolutionHelper/Role/Role/Resource"
+      }
+    },
+    "SolutionHelper4825923B": {
+      "Type": "AWS::Lambda::Function",
+      "Properties": {
+        "Code": {
+          "S3Bucket": {
+            "Fn::Sub": "solutions-${AWS::Region}"
+          },
+          "S3Key": "compliant-framework-for-federal-and-dod-workloads-in-aws-govcloud-us/v1.0.0/asset13b08e7fa8089c9c91dcc81b95b584670694fcd1a4740c1c4886d1dc75f9a5d2.zip"
+        },
+        "Handler": "lambda_function.handler",
+        "Role": {
+          "Fn::GetAtt": [
+            "SolutionHelperRoleC017C62A",
+            "Arn"
+          ]
+        },
+        "Runtime": "python3.8",
+        "Description": "This function generates UUID for each deployment and sends anonymous data to the AWS Solutions team",
+        "FunctionName": "CompliantFramework-SolutionHelper",
+        "Timeout": 30
+      },
+      "DependsOn": [
+        "SolutionHelperRoleC017C62A"
+      ],
+      "Metadata": {
+        "aws:cdk:path": "compliant-framework-for-federal-and-dod-workloads-in-aws-govcloud-us/SolutionHelper/SolutionHelper/Resource",
+        "aws:asset:path": "asset.13b08e7fa8089c9c91dcc81b95b584670694fcd1a4740c1c4886d1dc75f9a5d2",
+        "aws:asset:property": "Code"
+      },
+      "Condition": "SolutionHelperAnonymousDataToAWS62E4FDE2"
+    },
+    "SolutionHelperCreateUniqueIDAF03406A": {
+      "Type": "Custom::CreateUUID",
+      "Properties": {
+        "ServiceToken": {
+          "Fn::GetAtt": [
+            "SolutionHelper4825923B",
+            "Arn"
+          ]
+        },
+        "Resource": "UUID"
+      },
+      "UpdateReplacePolicy": "Delete",
+      "DeletionPolicy": "Delete",
+      "Metadata": {
+        "aws:cdk:path": "compliant-framework-for-federal-and-dod-workloads-in-aws-govcloud-us/SolutionHelper/CreateUniqueID/Default"
+      },
+      "Condition": "SolutionHelperAnonymousDataToAWS62E4FDE2"
+    },
+    "SolutionHelperSendAnonymousData9B19E31D": {
+      "Type": "Custom::AnonymousData",
+      "Properties": {
+        "ServiceToken": {
+          "Fn::GetAtt": [
+            "SolutionHelper4825923B",
+            "Arn"
+          ]
+        },
+        "Resource": "AnonymousMetric",
+        "SolutionId": "SO0130",
+        "UUID": {
+          "Fn::GetAtt": [
+            "SolutionHelperCreateUniqueIDAF03406A",
+            "UUID"
+          ]
+        },
+        "Region": {
+          "Ref": "AWS::Region"
+        }
+      },
+      "UpdateReplacePolicy": "Delete",
+      "DeletionPolicy": "Delete",
+      "Metadata": {
+        "aws:cdk:path": "compliant-framework-for-federal-and-dod-workloads-in-aws-govcloud-us/SolutionHelper/SendAnonymousData/Default"
+      },
+      "Condition": "SolutionHelperAnonymousDataToAWS62E4FDE2"
+    },
+    "CDKMetadata": {
+      "Type": "AWS::CDK::Metadata",
+      "Properties": {
+        "Modules": "aws-cdk=1.71.0,@aws-cdk/assets=1.71.0,@aws-cdk/aws-applicationautoscaling=1.71.0,@aws-cdk/aws-autoscaling=1.71.0,@aws-cdk/aws-autoscaling-common=1.71.0,@aws-cdk/aws-autoscaling-hooktargets=1.71.0,@aws-cdk/aws-cloudwatch=1.71.0,@aws-cdk/aws-codebuild=1.71.0,@aws-cdk/aws-codeguruprofiler=1.71.0,@aws-cdk/aws-ec2=1.71.0,@aws-cdk/aws-ecr=1.71.0,@aws-cdk/aws-ecr-assets=1.71.0,@aws-cdk/aws-ecs=1.71.0,@aws-cdk/aws-elasticloadbalancingv2=1.71.0,@aws-cdk/aws-events=1.71.0,@aws-cdk/aws-iam=1.71.0,@aws-cdk/aws-kms=1.71.0,@aws-cdk/aws-lambda=1.71.0,@aws-cdk/aws-logs=1.71.0,@aws-cdk/aws-s3=1.71.0,@aws-cdk/aws-s3-assets=1.71.0,@aws-cdk/aws-servicecatalog=1.71.0,@aws-cdk/aws-servicediscovery=1.71.0,@aws-cdk/aws-sns=1.71.0,@aws-cdk/aws-sns-subscriptions=1.71.0,@aws-cdk/aws-sqs=1.71.0,@aws-cdk/aws-ssm=1.71.0,@aws-cdk/aws-stepfunctions=1.71.0,@aws-cdk/aws-stepfunctions-tasks=1.71.0,@aws-cdk/cloud-assembly-schema=1.71.0,@aws-cdk/core=1.71.0,@aws-cdk/custom-resources=1.71.0,@aws-cdk/cx-api=1.71.0,@aws-cdk/region-info=1.71.0,jsii-runtime=node.js/v10.19.0"
+      },
+      "Metadata": {
+        "aws:cdk:path": "compliant-framework-for-federal-and-dod-workloads-in-aws-govcloud-us/CDKMetadata/Default"
+      },
+      "Condition": "CDKMetadataAvailable"
+    }
+  },
+  "Mappings": {
+    "SolutionHelperAnonymousData14B64A81": {
+      "SendAnonymousData": {
+        "Data": "Yes"
+      }
+    }
+  },
+  "Conditions": {
+    "SolutionHelperAnonymousDataToAWS62E4FDE2": {
+      "Fn::Equals": [
+        {
+          "Fn::FindInMap": [
+            "SolutionHelperAnonymousData14B64A81",
+            "SendAnonymousData",
+            "Data"
+          ]
+        },
+        "Yes"
+      ]
+    },
+    "CDKMetadataAvailable": {
+      "Fn::Or": [
+        {
+          "Fn::Or": [
+            {
+              "Fn::Equals": [
+                {
+                  "Ref": "AWS::Region"
+                },
+                "ap-east-1"
+              ]
+            },
+            {
+              "Fn::Equals": [
+                {
+                  "Ref": "AWS::Region"
+                },
+                "ap-northeast-1"
+              ]
+            },
+            {
+              "Fn::Equals": [
+                {
+                  "Ref": "AWS::Region"
+                },
+                "ap-northeast-2"
+              ]
+            },
+            {
+              "Fn::Equals": [
+                {
+                  "Ref": "AWS::Region"
+                },
+                "ap-south-1"
+              ]
+            },
+            {
+              "Fn::Equals": [
+                {
+                  "Ref": "AWS::Region"
+                },
+                "ap-southeast-1"
+              ]
+            },
+            {
+              "Fn::Equals": [
+                {
+                  "Ref": "AWS::Region"
+                },
+                "ap-southeast-2"
+              ]
+            },
+            {
+              "Fn::Equals": [
+                {
+                  "Ref": "AWS::Region"
+                },
+                "ca-central-1"
+              ]
+            },
+            {
+              "Fn::Equals": [
+                {
+                  "Ref": "AWS::Region"
+                },
+                "cn-north-1"
+              ]
+            },
+            {
+              "Fn::Equals": [
+                {
+                  "Ref": "AWS::Region"
+                },
+                "cn-northwest-1"
+              ]
+            },
+            {
+              "Fn::Equals": [
+                {
+                  "Ref": "AWS::Region"
+                },
+                "eu-central-1"
+              ]
+            }
+          ]
+        },
+        {
+          "Fn::Or": [
+            {
+              "Fn::Equals": [
+                {
+                  "Ref": "AWS::Region"
+                },
+                "eu-north-1"
+              ]
+            },
+            {
+              "Fn::Equals": [
+                {
+                  "Ref": "AWS::Region"
+                },
+                "eu-west-1"
+              ]
+            },
+            {
+              "Fn::Equals": [
+                {
+                  "Ref": "AWS::Region"
+                },
+                "eu-west-2"
+              ]
+            },
+            {
+              "Fn::Equals": [
+                {
+                  "Ref": "AWS::Region"
+                },
+                "eu-west-3"
+              ]
+            },
+            {
+              "Fn::Equals": [
+                {
+                  "Ref": "AWS::Region"
+                },
+                "me-south-1"
+              ]
+            },
+            {
+              "Fn::Equals": [
+                {
+                  "Ref": "AWS::Region"
+                },
+                "sa-east-1"
+              ]
+            },
+            {
+              "Fn::Equals": [
+                {
+                  "Ref": "AWS::Region"
+                },
+                "us-east-1"
+              ]
+            },
+            {
+              "Fn::Equals": [
+                {
+                  "Ref": "AWS::Region"
+                },
+                "us-east-2"
+              ]
+            },
+            {
+              "Fn::Equals": [
+                {
+                  "Ref": "AWS::Region"
+                },
+                "us-west-1"
+              ]
+            },
+            {
+              "Fn::Equals": [
+                {
+                  "Ref": "AWS::Region"
+                },
+                "us-west-2"
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

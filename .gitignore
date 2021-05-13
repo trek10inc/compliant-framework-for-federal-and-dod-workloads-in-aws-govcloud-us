@@ -16,7 +16,7 @@ cdk.out
 !**/cdk-solution-helper/index.js
 
 .vscode/
-
+notes/
 deployment/global-s3-assets
 deployment/regional-s3-assets
 open-source/
