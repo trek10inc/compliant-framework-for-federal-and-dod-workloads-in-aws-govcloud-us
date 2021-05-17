@@ -1,0 +1,548 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: 'Trek10 IAM Roles : 2018-07-25'
+
+
+Resources:
+  trek10ReadonlyRole:
+    Type: AWS::IAM::Role
+    Condition: createReadOnly
+    Properties:
+      RoleName: trek10-readonly
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              AWS:
+                Ref: Principal
+            Action: sts:AssumeRole
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/ReadOnlyAccess
+        - Ref: DenySensitiveReads
+        - Ref: AdditionalReads
+        - Fn::If:
+            - AddDeniesCondition
+            - Ref: AdditionalDenies
+            - Ref: AWS::NoValue
+  trek10WorkingRole:
+    Type: AWS::IAM::Role
+    Condition: createWorking
+    Properties:
+      RoleName: trek10-working
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              AWS:
+                Ref: Principal
+            Action: sts:AssumeRole
+            Condition:
+              Fn::If:
+                - restrictToUsers
+                - Bool:
+                    aws:MultiFactorAuthPresent: 'true'
+                  StringEquals:
+                    aws:username:
+                      Fn::Split:
+                        - ","
+                        - Fn::Join:
+                            - ","
+                            - - awarzon
+                              - cfuchs
+                              - Fn::Join:
+                                  - ","
+                                  - Ref: UserRestrictions
+                - Bool:
+                    aws:MultiFactorAuthPresent: 'true'
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/PowerUserAccess
+        - arn:aws:iam::aws:policy/ReadOnlyAccess
+        - Ref: DenyDeletes
+        - Fn::If:
+            - AddDeniesCondition
+            - Ref: AdditionalDenies
+            - Ref: AWS::NoValue
+  trek10PowerUserRole:
+    Type: AWS::IAM::Role
+    Condition: createPowerUser
+    Properties:
+      RoleName: trek10-poweruser
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              AWS:
+                Ref: Principal
+            Action: sts:AssumeRole
+            Condition:
+              Fn::If:
+                - restrictToUsers
+                - Bool:
+                    aws:MultiFactorAuthPresent: 'true'
+                  StringEquals:
+                    aws:username:
+                      Fn::Split:
+                        - ","
+                        - Fn::Join:
+                            - ","
+                            - - awarzon
+                              - cfuchs
+                              - Fn::Join:
+                                  - ","
+                                  - Ref: UserRestrictions
+                - Bool:
+                    aws:MultiFactorAuthPresent: 'true'
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/ReadOnlyAccess
+        - arn:aws:iam::aws:policy/PowerUserAccess
+  trek10ManagerRole:
+    Type: AWS::IAM::Role
+    Condition: createManager
+    Properties:
+      RoleName: trek10-manager
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              AWS:
+                Ref: Principal
+            Action: sts:AssumeRole
+            Condition:
+              Fn::If:
+                - restrictToUsers
+                - Bool:
+                    aws:MultiFactorAuthPresent: 'true'
+                  StringEquals:
+                    aws:username:
+                      Fn::Split:
+                        - ","
+                        - Fn::Join:
+                            - ","
+                            - - awarzon
+                              - cfuchs
+                              - Fn::Join:
+                                  - ","
+                                  - Ref: UserRestrictions
+                - Bool:
+                    aws:MultiFactorAuthPresent: 'true'
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/AdministratorAccess
+        - Ref: DenyDeletes
+  trek10KernelRole:
+    Type: AWS::IAM::Role
+    Condition: createAdmin
+    Properties:
+      RoleName: trek10-kernel
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              AWS:
+                Ref: Principal
+            Action: sts:AssumeRole
+            Condition:
+              Fn::If:
+                - restrictToUsers
+                - Bool:
+                    aws:MultiFactorAuthPresent: 'true'
+                  StringEquals:
+                    aws:username:
+                      Fn::Split:
+                        - ","
+                        - Fn::Join:
+                            - ","
+                            - - awarzon
+                              - cfuchs
+                              - Fn::Join:
+                                  - ","
+                                  - Ref: UserRestrictions
+                - Bool:
+                    aws:MultiFactorAuthPresent: 'true'
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/AdministratorAccess
+  DenySensitiveReads:
+    Type: AWS::IAM::ManagedPolicy
+    Condition: createReadOnly
+    Properties:
+      Description: Deny read-only user several sensitive read-only actions
+      Path: "/"
+      PolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Sid: denyvarious
+            Effect: Deny
+            Action:
+              - apigateway:GET
+              - codecommit:GitPull
+              - dynamodb:BatchGetItem
+              - dynamodb:GetItem
+              - dynamodb:Query
+              - dynamodb:Scan
+              - ecr:BatchGetImage
+              - es:ESHttpGet
+              - iot:GetThingShadow
+              - kinesis:GetRecords
+              - kms:DescribeKey
+              - lambda:GetFunction
+              - s3:GetObject
+              - s3:GetObject*
+              - sqs:ReceiveMessage
+            Resource:
+              - "*"
+  DenyDeletes:
+    Type: AWS::IAM::ManagedPolicy
+    Condition: createRestrictedWriteRoles
+    Properties:
+      Description: Deny delete-related actions across all services
+      Path: "/"
+      PolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Deny
+            Action:
+              - ec2:*terminate*
+            Resource: "*"
+            Condition:
+              'Null':
+                ec2:ResourceTag/aws:autoscaling:groupName: 'true'
+          - Effect: Deny
+            Action:
+              - acm:*delete*
+              - acm-pca:*delete*
+              - a4b:*delete*
+              - apigateway:*delete*
+              - application-autoscaling:*delete*
+              - appstream:*delete*
+              - appsync:*delete*
+              - athena:*delete*
+              - autoscaling:*delete*
+              - autoscaling-plans:*delete*
+              - batch:*delete*
+              - budgets:*delete*
+              - chime:*delete*
+              - cloud9:*delete*
+              - clouddirectory:*delete*
+              - cloudformation:*delete*
+              - cloudfront:*delete*
+              - cloudhsm:*delete*
+              - cloudsearch:*delete*
+              - cloudsearchdomain:*delete*
+              - cloudtrail:*delete*
+              - cloudwatch:*delete*
+              - codebuild:*delete*
+              - codecommit:*delete*
+              - codedeploy:*delete*
+              - codepipeline:*delete*
+              - codestar:*delete*
+              - cognito-identity:*delete*
+              - cognito-idp:*delete*
+              - cognito-sync:*delete*
+              - cognitosync:*delete*
+              - comprehend:*delete*
+              - config:*delete*
+              - connect:*destroy*
+              - datapipeline:*delete*
+              - dax:*delete*
+              - devicefarm:*delete*
+              - directconnect:*delete*
+              - discovery:*delete*
+              - dms:*delete*
+              - ds:*delete*
+              - dynamodb:*delete*
+              - dynamodbstreams:*delete*
+              - ec2:*delete*
+              - ec2messages:*delete*
+              - ecr:*delete*
+              - ecs:*delete*
+              - efs:*delete*
+              - elasticache:*delete*
+              - elasticbeanstalk:*delete*
+              - elasticfilesystem:*delete*
+              - elasticloadbalancing:*delete*
+              - elasticmapreduce:*delete*
+              - elastictranscoder:*delete*
+              - elb:*delete*
+              - elbv2:*delete*
+              - eks:*delete*
+              - emr:*delete*
+              - es:*delete*
+              - events:*delete*
+              - firehose:*delete*
+              - fms:*delete*
+              - freertos:*delete*
+              - gamelift:*delete*
+              - glacier:*delete*
+              - glue:*delete*
+              - greengrass:*delete*
+              - guardduty:*delete*
+              - health:*delete*
+              - iam:*delete*
+              - importexport:*delete*
+              - inspector:*delete*
+              - iot:*delete*
+              - iot1click:*delete*
+              - iotanalytics:*delete*
+              - iotdata:*delete*
+              - kinesis:*delete*
+              - kinesisanalytics:*delete*
+              - kinesisvideo:*delete*
+              - kms:*delete*
+              - lambda:*delete*
+              - lex:*delete*
+              - lightsail:*delete*
+              - logs:*delete*
+              - machinelearning:*delete*
+              - marketplacecommerceanalytics:*delete*
+              - mediaconvert:*delete*
+              - medialive:*delete*
+              - mediapackage:*delete*
+              - mediastore:*delete*
+              - meteringmarketplace:*delete*
+              - mgh:*delete*
+              - mobilehub:*delete*
+              - mobiletargeting:*delete*
+              - mq:*delete*
+              - opsworks:*delete*
+              - opsworks-cm:*delete*
+              - organizations:*delete*
+              - pinpoint:*delete*
+              - polly:*delete*
+              - rds:*delete*
+              - redshift:*delete*
+              - rekognition:*delete*
+              - resource-groups:*delete*
+              - route53:*delete*
+              - route53domains:*delete*
+              - s3api:*delete*
+              - s3:*delete*
+              - sagemaker:*delete*
+              - sdb:*delete*
+              - secretsmanager:*delete*
+              - serverlessrepo:*delete*
+              - servicecatalog:*delete*
+              - servicediscovery:*delete*
+              - ses:*delete*
+              - shield:*delete*
+              - sms:*delete*
+              - snowball:*delete*
+              - sns:*delete*
+              - sqs:*delete*
+              - ssm:*delete*
+              - sso:*delete*
+              - states:*delete*
+              - stepfunctions:*delete*
+              - storagegateway:*delete*
+              - sts:*delete*
+              - support:*delete*
+              - swf:*delete*
+              - waf:*delete*
+              - waf-regional:*delete*
+              - workdocs:*delete*
+              - workmail:*delete*
+              - workspaces:*delete*
+              - xray:*delete*
+              - configure:*delete*
+              - deploy:*delete*
+              - configservice:*delete*
+            Resource: "*"
+  AdditionalReads:
+    Type: AWS::IAM::ManagedPolicy
+    Condition: createReadOnly
+    Properties:
+      Description: Allow read-only for Cost Explorer and Support
+      Path: "/"
+      PolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Sid: readcostexplorer
+            Effect: Allow
+            Action:
+              - ce:Get*
+            Resource:
+              - "*"
+          - Sid: allowsupport
+            Effect: Allow
+            Action:
+              - support:*
+            Resource:
+              - "*"
+          - Sid: viewbilling
+            Effect: Allow
+            Action:
+              - aws-portal:ViewBilling
+            Resource:
+              - "*"
+          - Sid: readrefreshtachecks
+            Effect: Allow
+            Action:
+              - trustedadvisor:Describe*
+              - trustedadvisor:RefreshCheck
+            Resource:
+              - "*"
+  AdditionalDenies:
+    Type: AWS::IAM::ManagedPolicy
+    Condition: AddDeniesCondition
+    Properties:
+      Description: Optional further permission restrictions for non-privileged users
+      Path: "/"
+      PolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Deny
+            Action:
+              - s3:GetObject
+              - s3:GetObject*
+              - s3:Create*
+              - s3:Delete*
+              - s3:ObjectOwnerOverrideToBucketOwner
+              - s3:Put*
+              - s3:Replicate*
+              - s3:RestoreObject
+              - ec2:CopyImage
+              - ec2:CopySnapshot
+              - ec2:CreateImage
+              - ec2:CreateVolume
+              - ec2:DeregisterImage
+              - ec2:RegisterImage
+              - ec2:ModifyImageAttribute
+              - ec2:ReplaceIamInstanceProfileAssociation
+              - ec2:ResetSnapshotAttribute
+              - ec2:RunInstances
+              - ec2:Attach*
+              - ssm:*Parameter*
+              - ssm:SendCommand
+              - ssm:StartAutomationExecution
+              - rds:CopyDBClusterSnapshot
+              - rds:CopyDBSnapshot
+              - rds:ModifyDBSnapshotAttribute
+              - rds:ModifyDBInstance
+              - rds:ModifyDBCluster
+              - rds:Restore*
+            Resource: "*"
+
+Outputs:
+  AccountId:
+    Description: AWS Account ID
+    Value:
+      Ref: AWS::AccountId
+  Timestamp:
+    Description: Timestamp of Template
+    Value: 1532553612223
+
+Parameters:
+  RolesScope:
+    Type: String
+    Default: AllRoles
+    AllowedValues:
+      - AllRoles
+      - ReadOnly
+      - AdminOnly
+      - ReadWriteWithoutAdmin
+      - ReadWriteWithoutAdminAndDelete
+    Description: Select AllRoles to grant all 5 role tiers to Trek10. Select another
+      option to limit the role tiers granted.
+  UserRestrictions:
+    Type: CommaDelimitedList
+    Description: Restrict to only a subset of users.
+    Default: ''
+  AdditionalRestrictions:
+    Type: String
+    Default: 'no'
+    AllowedValues:
+      - 'no'
+      - 'yes'
+    Description: Adds further permission restrictions to non-privileged (trek10-readonly
+      and working) roles.
+  Principal:
+    Type: String
+    Description: arn of iam account to trust
+
+Mappings:
+  RolesScopeMap:
+    AllRoles:
+      readonly: 'yes'
+      working: 'yes'
+      poweruser: 'yes'
+      manager: 'yes'
+      admin: 'yes'
+    ReadOnly:
+      readonly: 'yes'
+      working: ''
+      poweruser: ''
+      manager: ''
+      admin: ''
+    AdminOnly:
+      readonly: ''
+      working: ''
+      poweruser: ''
+      manager: ''
+      admin: 'yes'
+    ReadWriteWithoutAdmin:
+      readonly: 'yes'
+      working: 'yes'
+      poweruser: 'yes'
+      manager: ''
+      admin: ''
+    ReadWriteWithoutAdminAndDelete:
+      readonly: 'yes'
+      working: 'yes'
+      poweruser: ''
+      manager: ''
+      admin: ''
+
+Conditions:
+  createReadOnly:
+    Fn::Equals:
+      - Fn::FindInMap:
+          - RolesScopeMap
+          - Ref: RolesScope
+          - readonly
+      - 'yes'
+  createWorking:
+    Fn::Equals:
+      - Fn::FindInMap:
+          - RolesScopeMap
+          - Ref: RolesScope
+          - working
+      - 'yes'
+  createPowerUser:
+    Fn::Equals:
+      - Fn::FindInMap:
+          - RolesScopeMap
+          - Ref: RolesScope
+          - poweruser
+      - 'yes'
+  createManager:
+    Fn::Equals:
+      - Fn::FindInMap:
+          - RolesScopeMap
+          - Ref: RolesScope
+          - manager
+      - 'yes'
+  createAdmin:
+    Fn::Equals:
+      - Fn::FindInMap:
+          - RolesScopeMap
+          - Ref: RolesScope
+          - admin
+      - 'yes'
+  createRestrictedWriteRoles:
+    Fn::Or:
+      - Condition: createWorking
+      - Condition: createPowerUser
+      - Condition: createManager
+  restrictToUsers:
+    Fn::Not:
+      - Fn::Equals:
+          - Fn::Join:
+              - ''
+              - Ref: UserRestrictions
+          - ''
+  AddDeniesCondition:
+    Fn::Equals:
+      - Ref: AdditionalRestrictions
+      - 'yes'

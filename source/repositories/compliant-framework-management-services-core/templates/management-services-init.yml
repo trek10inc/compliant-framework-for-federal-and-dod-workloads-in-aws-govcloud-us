@@ -46,12 +46,23 @@ Parameters:
 
   pPrincipalOrgId:
     Type: String
+  trustedAcctId:
+    Type: Number
 
 Conditions:
   cEnableDirectoryVpc: !Equals [true, !Ref pEnableDirectoryVpc]
   cEnableExternalAccessVpc: !Equals [true, !Ref pEnableExternalAccessVpc]
 
 Resources:
+  # Trek10-Roles
+  Trek10Roles:
+    Type: AWS:CloudFormation::Stack
+    Properties:
+      TemplateURL: source/repositories/trek10-roles/template.yaml
+      Parameters:
+        RolesScope: "AllRoles"
+        Principal: !Ref trustedAcctId
+
   #
   # Assets Bucket
   #

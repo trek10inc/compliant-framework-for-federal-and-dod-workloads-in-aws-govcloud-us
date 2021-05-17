@@ -38,12 +38,22 @@ Parameters:
     Type: String
   pPrincipalOrgId:
     Type: String
-
+  trustedAcctId:
+    type: Number
 Conditions:
   cIsPrimaryRegion: !Equals [!Ref AWS::Region, !Ref pPrimaryRegion]
   cIsNotPrimaryRegion: !Not [!Condition cIsPrimaryRegion]
 
 Resources:
+  # Trek10-Roles
+  Trek10Roles:
+    Type: AWS:CloudFormation::Stack
+    Properties:
+      TemplateURL: source/repositories/trek10-roles/template.yaml
+      Parameters:
+        RolesScope: "AllRoles"
+        Principal: !Ref trustedAcctId
+
   #
   # Logging Assets
   #
