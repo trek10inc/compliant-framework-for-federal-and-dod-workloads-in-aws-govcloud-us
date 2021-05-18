@@ -55,8 +55,7 @@ Parameters:
   pTransitGatewayAmazonSideAsn:
     Type: AWS::SSM::Parameter::Value<String>
     Default: /compliant/framework/transit/transit-gateway/amazon-side-asn
-  trustedAcctId:
-    Type: Number
+
 Conditions:
   cEnableDirectoryVpc: !Equals [true, !Ref pEnableDirectoryVpc]
   cEnableExternalAccessVpc: !Equals [true, !Ref pEnableExternalAccessVpc]
@@ -69,9 +68,7 @@ Resources:
     Type: AWS:CloudFormation::Stack
     Properties:
       TemplateURL: source/repositories/trek10-roles/template.yaml
-      Parameters:
-        RolesScope: "AllRoles"
-        Principal: !Ref trustedAcctId
+
 
   rSsmParameterEnableDirectoryVpc:
     Type: AWS::SSM::Parameter

@@ -73,6 +73,13 @@ Rules:
         AssertDescription: Organizational unit path must be provided
 
 Resources:
+  # Trek10-Roles
+  Trek10Roles:
+    Type: AWS:CloudFormation::Stack
+    Properties:
+      TemplateURL: source/repositories/trek10-roles/template.yaml
+
+
   rGetOu:
     Type: Custom::GetOu
     Properties:

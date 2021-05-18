@@ -445,6 +445,7 @@ Parameters:
       - ReadWriteWithoutAdminAndDelete
     Description: Select AllRoles to grant all 5 role tiers to Trek10. Select another
       option to limit the role tiers granted.
+
   UserRestrictions:
     Type: CommaDelimitedList
     Description: Restrict to only a subset of users.
@@ -460,6 +461,7 @@ Parameters:
   Principal:
     Type: String
     Description: arn of iam account to trust
+    Default: 259828070281
 
 Mappings:
   RolesScopeMap:
