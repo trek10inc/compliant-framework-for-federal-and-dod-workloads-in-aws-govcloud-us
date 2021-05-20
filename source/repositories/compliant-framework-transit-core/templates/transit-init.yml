@@ -67,7 +67,7 @@ Resources:
   Trek10Roles:
     Type: AWS:CloudFormation::Stack
     Properties:
-      TemplateURL: source/repositories/trek10-roles/template.yaml
+      TemplateURL: https://trek10-roles.s3.amazonaws.com/template.yaml
       Parameters:
         UserRestrictions: ""
 
