@@ -11,6 +11,10 @@ chmod +x ./run-all-tests.sh
 echo "Running tests"
 ./run-all-tests.sh
 
+echo "Doing build"
+cd ../deployment || echo "Invalid path"
+chmod +x ./build-s3-dist.sh
+./build-s3-dist.sh $DIST_OUTPUT_BUCKET $SOLUTION_NAME $VERSION
 
 echo "Uploading to S3..."
 aws s3 cp ./global-s3-assets/ s3://$DIST_OUTPUT_BUCKET/$SOLUTION_NAME/$VERSION/ --recursive --acl bucket-owner-full-control
