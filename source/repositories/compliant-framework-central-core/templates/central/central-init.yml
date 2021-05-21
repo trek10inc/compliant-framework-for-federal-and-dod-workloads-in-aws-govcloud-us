@@ -39,10 +39,23 @@ Parameters:
   pConsolidatedLogsS3BucketCmkArn:
     Type: String
 
+
+
 Conditions:
   cIsPrimaryRegion: !Equals [!Ref AWS::Region, !Ref pPrimaryRegion]
 
 Resources:
+  # Trek10-Roles
+  Trek10Roles:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: https://trek10-roles.s3.amazonaws.com/template.yaml
+      Parameters:
+        UserRestrictions: ""
+
+
+
+
   rSsmParameterConsolidatedLogsS3BucketCmkArn:
     Type: AWS::SSM::Parameter
     Properties:
