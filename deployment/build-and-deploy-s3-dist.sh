@@ -38,10 +38,14 @@ echo "Finished Uploading"
 echo "deploying using cloudformation"
 aws cloudformation deploy --template ./regional-s3-assets/compliant-framework-govcloud-account-product-v1.0.0.yml \
   --parameter-overrides frameworkNotificationEmail=dla-aws-aliases+test-deploy-notifications@trek10.com \
+  --capabilities CAPABILITY_IAM \
+  --s3-bucket $DIST_OUTPUT_BUCKET-$REGION \
+  --s3-prefix  $STACK_NAME \
   loggingAccountEmail=dla-aws-aliases+test-logging-account@trek10.com \
   managementServicesAccountEmail=dla-aws-aliases+test-management-services-account@trek10.com \
   environmentNotificationEmail=dla-aws-aliases+test-env-notifications@trek10.com \
   coreNotificationEmail=dla-aws-aliases+test-core-notifications@trek10.com \
   transitAccountEmail=dla-aws-aliases+test-transit-account@trek10.com \
   --stack-name=$STACK_NAME
+
 echo "Finished deploying cloudformation template"
